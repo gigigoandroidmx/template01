@@ -1,20 +1,122 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion androidCompileSdkVersion
+    buildToolsVersion androidBuildToolsVersion
+
     defaultConfig {
-        applicationId "gigigo.com.template"
-        minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        release {
+            def Properties props = new Properties()
+            def propFile = new File('./signing.properties')
+            if (propFile.canRead()) {
+                props.load(new FileInputStream(propFile))
+
+                if (props != null &&
+                        props.containsKey('STORE_FILE') &&
+                        props.containsKey('STORE_PASSWORD') &&
+                        props.containsKey('KEY_ALIAS') &&
+                        props.containsKey('KEY_PASSWORD')) {
+                    android.signingConfigs.release.storeFile = file(props.getProperty('STORE_FILE'))
+                    android.signingConfigs.release.storePassword = props.getProperty('STORE_PASSWORD')
+                    android.signingConfigs.release.keyAlias = props.getProperty('KEY_ALIAS')
+                    android.signingConfigs.release.keyPassword = props.getProperty('KEY_PASSWORD')
+                } else {
+                    println 'signing.properties found but some entries are missing'
+                    android.buildTypes.release.signingConfig = null
+                }
+            } else {
+                println 'signing.properties not found'
+                android.buildTypes.release.signingConfig = null
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            //signingConfig signingConfigs.release
+        }
+        production {
+            debuggable true
+            signingConfig signingConfigs.release
+        }
+        release {
+            debuggable true
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    productFlavors.whenObjectAdded { flavor ->
+        def flavorData = rootProject.ext[flavor.name]
+        flavor.versionCode flavorData.versionCode
+        flavor.versionName flavorData.versionName
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
+    productFlavors {
+        template {
+
+        }
+    }
+
+    project.android.applicationVariants.all { variant ->
+
+        variant.productFlavors.each { flavor ->
+
+            def flavorData = rootProject.ext[flavor.name]
+            def appName = flavorData.appName
+            def applicationId = flavorData.applicationId
+
+            println("**************************************************")
+            println("-------------" + flavor.name + "." + variant.buildType.name + "." + variant.mergedFlavor.versionCode + "-------------")
+
+            if (variant.buildType.name.equals("debug")) {
+                applicationId = flavorData.applicationId + ".debug"
+                appName = "[Q] " + flavorData.appName
+            } else if (variant.buildType.name.equals("production")) {
+                applicationId = flavorData.applicationId + ".production"
+                appName = "[P] " + flavorData.appName
+            } else {
+                variant.mergedFlavor.versionCode = flavorData.versionCodeRelease
+                variant.mergedFlavor.versionName = flavorData.versionNameRelease
+            }
+
+            setVariantApplicationId(variant, applicationId)
+            setVariantResValue(variant, appName, "app_name", STRING.toLowerCase())
+
+            // setVariantBuildConfigField
+            // E.G.
+            // def STRING = "String"
+            // def HOST = "HOST"
+            // setVariantBuildConfigField(variant, flavorData.host, HOST, STRING)
+
+            println("**************************************************")
+        }
+
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                def file = output.outputFile;
+                output.outputFile = new File(file.parent, "${output.baseName}-${variant.versionName}-${variant.versionCode}.apk")
+            }
         }
     }
 }
@@ -24,6 +126,10 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
+
+    compile testing.junit
+
+    compile libraries.design
+    compile libraries.appcompat
+    compile libraries.recyclerview
 }

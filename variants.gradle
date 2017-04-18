@@ -1,0 +1,18 @@
+ext{
+    template = [
+            versionCode :                                           100000,
+            versionName :                                           "1.0.0",
+            versionCodeRelease :                                    100000,
+            versionNameRelease :                                    "1.0.0",
+            applicationId :                                         "com.gigigo.template",
+            appName :                                               "Gigigo Template",
+
+            host :                                                  [debug:             "",
+                                                                     production:        "",
+                                                                     release:           ""],
+
+            host_pos :                                              [debug:             "",
+                                                                     production:        "",
+                                                                     release:           ""],
+    ]
+}

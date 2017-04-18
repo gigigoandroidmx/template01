@@ -1,0 +1,40 @@
+ext{
+
+    // Android sdk version
+    androidCompileSdkVersion = 25
+    androidBuildToolsVersion = "25.0.2"
+    androidMinSdkVersion  = 15
+    androidTargetSdkVersion = 25
+
+    //Dependency version
+    junitVersion = '4.12'
+    supportVersion = '25.2.0'
+
+    //Packages
+    junitPackage = 'junit'
+    supportPackage = 'com.android.support'
+
+
+    //Libraries
+    libraries = [
+            design :                    buildDependency(supportPackage, 'design', supportVersion),
+            appcompat :                 buildDependency(supportPackage, 'appcompat-v7', supportVersion),
+            cardview :                  buildDependency(supportPackage, 'cardview-v7', supportVersion),
+            recyclerview :              buildDependency(supportPackage, 'recyclerview-v7', supportVersion)
+    ]
+
+    //Modules
+    modules = [
+            // E.G.
+            // module_alias :                    project(':module_name')
+    ]
+
+    //Testing
+    testing = [
+            junit :                     buildDependency(junitPackage, 'junit', junitVersion)
+    ]
+}
+
+static String buildDependency(String pack, String dependency, String version) {
+    return "${pack}:${dependency}:${version}"
+}
