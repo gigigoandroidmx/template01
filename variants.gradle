@@ -7,12 +7,12 @@ ext{
             applicationId :                                         "com.gigigo.template",
             appName :                                               "Gigigo Template",
 
-            host :                                                  [debug:             "",
-                                                                     production:        "",
-                                                                     release:           ""],
+            host :                                                  [debug:             "https://reqres.in",
+                                                                     production:        "https://reqres.in",
+                                                                     release:           "https://reqres.in"],
 
-            host_pos :                                              [debug:             "",
-                                                                     production:        "",
-                                                                     release:           ""],
+            host_pos :                                              [debug:             "https://reqres.in",
+                                                                     production:        "https://reqres.in",
+                                                                     release:           "https://reqres.in"],
     ]
 }

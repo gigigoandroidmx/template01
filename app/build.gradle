@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+def STRING = "String"
+def HOST = "HOST"
+
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
@@ -106,7 +109,7 @@ android {
             // E.G.
             // def STRING = "String"
             // def HOST = "HOST"
-            // setVariantBuildConfigField(variant, flavorData.host, HOST, STRING)
+            setVariantBuildConfigField(variant, flavorData.host, HOST, STRING)
 
             println("**************************************************")
         }
@@ -132,4 +135,10 @@ dependencies {
     compile libraries.design
     compile libraries.appcompat
     compile libraries.recyclerview
+    compile libraries.retrofit
+    compile libraries.gsonconverter
+    compile libraries.okhttp
+    compile libraries.kripton
+    compile libraries.kretrofitmanager
+    compile 'com.android.support:support-v4:25.3.1'
 }
