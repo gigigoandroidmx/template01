@@ -29,7 +29,8 @@ ext{
             gsonconverter :             buildDependency(retrofitPackage, 'converter-gson', gsonVersion),
             okhttp :                    buildDependency(okhttpPackage, 'logging-interceptor', okhttpVersion),
             kripton :                   'com.github.gigigoandroidmx:kripton:develop-SNAPSHOT',
-            kretrofitmanager :          'com.github.gigigoandroidmx:kretrofitmanager:develop-SNAPSHOT'
+            kretrofitmanager :          'com.github.gigigoandroidmx:kretrofitmanager:develop-SNAPSHOT',
+            logginginterceptor :        'com.github.ihsanbal:LoggingInterceptor:2.0.0'
     ]
 
     //Modules
