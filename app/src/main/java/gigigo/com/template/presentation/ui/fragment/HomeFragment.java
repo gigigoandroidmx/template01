@@ -36,7 +36,7 @@ public class HomeFragment
 
     @Override
     protected void onBindView(View view) {
-        super.onBindView(view);
+
     }
 
     @Override
@@ -46,7 +46,7 @@ public class HomeFragment
 
     @Override
     protected HomePresenter createPresenter() {
-        return new HomePresenter(new HomeInteractor());
+        return new HomePresenter(new HomeInteractor(homeService));
     }
 
     //endregion

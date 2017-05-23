@@ -15,4 +15,8 @@ public class HomePresenter
     public HomePresenter(HomeInteractor interactor) {
         this.interactor = interactor;
     }
+
+    public void getUserList() {
+
+    }
 }

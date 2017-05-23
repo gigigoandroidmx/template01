@@ -1,7 +1,5 @@
 package gigigo.com.template.presentation.ui.base;
 
-import android.view.View;
-
 import gigigo.com.kmvp.IPresenter;
 import gigigo.com.kmvp.IView;
 import gigigo.com.kmvp.KFragment;
@@ -16,7 +14,7 @@ public abstract class KFragmentBase<V extends IView, P extends IPresenter<V>>
     private ProgressIndicator progressIndicator;
 
     @Override
-    protected void onBindView(View view) {
+    protected void onInitialize() {
         this.progressIndicator = new ProgressIndicator(getContext());
     }
 
