@@ -1,8 +1,6 @@
 package gigigo.com.template.domain.interactor;
 
-import java.util.List;
-
-import gigigo.com.kmvp.Interactor;
+import gigigo.com.kmvp.KInteractor;
 import gigigo.com.kretrofitmanager.ICall;
 import gigigo.com.kretrofitmanager.ICallbackAdapter;
 import gigigo.com.template.data.entity.User;
@@ -12,7 +10,7 @@ import gigigo.com.template.domain.service.IHomeService;
  * @author Juan Godínez Vera - 5/23/2017.
  */
 public class HomeInteractor
-        extends Interactor {
+        extends KInteractor {
 
     private final IHomeService service;
 
@@ -21,16 +19,11 @@ public class HomeInteractor
     }
 
     @Override
-    public <T> T execute() {
-        return null;
-    }
-
-    @Override
     public void refreshData() { }
 
-    public void getUserList(ICallbackAdapter<List<User>> callbackAdapter) {
+    public void getUserList(ICallbackAdapter<User> callbackAdapter) {
         int page = tryGetParamValueAs(Integer.class, 0);
-        ICall<List<User>> call = service.getUserList(page);
+        ICall<User> call = service.getUserList(page);
         call.enqueue(callbackAdapter);
     }
 }

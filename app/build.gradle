@@ -123,6 +123,10 @@ android {
         }
     }
 }
+configurations.all {
+    // Check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -131,14 +135,13 @@ dependencies {
     })
 
     compile testing.junit
-
     compile libraries.design
     compile libraries.appcompat
     compile libraries.recyclerview
     compile libraries.retrofit
     compile libraries.gsonconverter
     compile libraries.okhttp
-    compile libraries.kripton
+    compile (libraries.kripton) { changing = true }
     compile libraries.kretrofitmanager
     compile 'com.android.support:support-v4:25.3.1'
     compile (libraries.logginginterceptor) {
