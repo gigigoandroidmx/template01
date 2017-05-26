@@ -1,5 +1,7 @@
 package gigigo.com.template.presentation.presenter;
 
+import android.support.annotation.UiThread;
+
 import java.util.ArrayList;
 import java.util.List;
 
