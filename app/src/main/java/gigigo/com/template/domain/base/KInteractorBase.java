@@ -1,5 +1,6 @@
 package gigigo.com.template.domain.base;
 
+import gigigo.com.kmvp.IExecutor;
 import gigigo.com.kmvp.KInteractor;
 import gigigo.com.kretrofitmanager.ICallbackAdapter;
 

@@ -1,5 +1,13 @@
 package gigigo.com.template.presentation.ui.base;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import gigigo.com.kmvp.IPresenter;
 import gigigo.com.kmvp.IView;
 import gigigo.com.kmvp.KFragment;
@@ -11,11 +19,24 @@ import gigigo.com.template.presentation.ui.widget.ProgressIndicator;
 public abstract class KFragmentBase<V extends IView, P extends IPresenter<V>>
         extends KFragment<V, P> {
 
+    private Unbinder unbinder;
     private ProgressIndicator progressIndicator;
 
     @Override
+    protected void onBindView(View root) {
+        unbinder = ButterKnife.bind(this, root);
+    }
+
+    @Override
+    protected void onUnbindView() {
+        if(unbinder != null) {
+            unbinder.unbind();
+        }
+    }
+
+    @Override
     protected void onInitialize() {
-        this.progressIndicator = new ProgressIndicator(getContext());
+        progressIndicator = new ProgressIndicator(getContext());
     }
 
     public void showProgressIndicator(boolean active) {

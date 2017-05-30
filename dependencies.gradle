@@ -12,12 +12,14 @@ ext{
     retrofitVersion = '2.2.0'
     gsonVersion = '2.1.0'
     okhttpVersion = '3.7.0'
+    butterknifeVersion = '8.6.0'
 
     //Packages
     junitPackage = 'junit'
     supportPackage = 'com.android.support'
     retrofitPackage = 'com.squareup.retrofit2'
     okhttpPackage = 'com.squareup.okhttp3'
+    butterknife = 'com.jakewharton'
 
     //Libraries
     libraries = [
@@ -28,6 +30,7 @@ ext{
             retrofit :                  buildDependency(retrofitPackage, 'retrofit', retrofitVersion),
             gsonconverter :             buildDependency(retrofitPackage, 'converter-gson', gsonVersion),
             okhttp :                    buildDependency(okhttpPackage, 'logging-interceptor', okhttpVersion),
+            butterknife :               buildDependency(butterknife, 'butterknife', butterknifeVersion),
             kripton :                   'com.github.gigigoandroidmx:kripton:develop-SNAPSHOT',
             kretrofitmanager :          'com.github.gigigoandroidmx:kretrofitmanager:develop-SNAPSHOT',
             logginginterceptor :        'com.github.ihsanbal:LoggingInterceptor:2.0.0'

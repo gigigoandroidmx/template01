@@ -1,12 +1,17 @@
 package gigigo.com.template.domain.interactor;
 
+import butterknife.ButterKnife;
+import gigigo.com.kmvp.IAction;
+import gigigo.com.kmvp.IFunction;
+import gigigo.com.kmvp.IPredicate;
 import gigigo.com.kmvp.KInteractor;
+import gigigo.com.kmvp.KMainThread;
+import gigigo.com.kretrofitmanager.CallbackAdapter;
 import gigigo.com.kretrofitmanager.ICall;
 import gigigo.com.kretrofitmanager.ICallbackAdapter;
 import gigigo.com.kretrofitmanager.ResponseState;
 import gigigo.com.template.data.entity.User;
-import gigigo.com.template.domain.base.IExecutor;
-import gigigo.com.template.domain.base.KInteractorBase;
+import gigigo.com.kmvp.IExecutor;
 import gigigo.com.template.domain.service.IHomeService;
 import retrofit2.Response;
 
@@ -36,41 +41,32 @@ public class HomeInteractor
     public void run() {
         int page = tryGetParamValueAs(Integer.class, 0);
         ICall<User> call = service.getUserList(page);
-        call.enqueue(new ICallbackAdapter<User>() {
-            @Override
-            public void onDataEmpty() {
 
-            }
-
+        /**
+         * implements {@link CallbackAdapter} or {@link ICallbackAdapter}
+         */
+        call.enqueue(new CallbackAdapter<User>() {
             @Override
             public void onSuccess(final User data, Object... params) {
-                //this runs on the UI thread
                 user = data;
-                notifyFetchUserSucces();
+
+                //this runs on the UI thread
+                post(new IAction() {
+                    @Override
+                    public <T> void invoke(T argument) {
+                        callback.onFetchUserSucces(user);
+                    }
+                }, user);
             }
 
             @Override
-            public void onUnauthorized(Response<User> response) {
-
-            }
-
-            @Override
-            public void onError(Throwable exception) {
-
-            }
-
-            @Override
-            public void onDataNotAvailable(ResponseState entryState) {
-
-            }
-        });
-    }
-
-    private void notifyFetchUserSucces() {
-        new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                callback.onFetchUserSucces(user);
+            public void onError(final Throwable exception) {
+                post(new IFunction() {
+                    @Override
+                    public void apply() {
+                        callback.onFecthUserError(exception);
+                    }
+                });
             }
         });
     }

@@ -4,16 +4,14 @@ package gigigo.com.template.presentation.ui.fragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.List;
-
+import butterknife.BindView;
 import gigigo.com.kretrofitmanager.ServiceClient;
 import gigigo.com.template.R;
 import gigigo.com.template.data.entity.User;
 import gigigo.com.template.domain.interactor.HomeInteractor;
-import gigigo.com.template.domain.interactor.ThreadExecutor;
+import gigigo.com.kmvp.KThreadExecutor;
 import gigigo.com.template.domain.service.IHomeService;
 import gigigo.com.template.presentation.presenter.HomePresenter;
 import gigigo.com.template.presentation.ui.adapter.HomeAdapter;
@@ -28,8 +26,10 @@ public class HomeFragment
         extends KFragmentBase<IViewHome, HomePresenter>
         implements IViewHome {
 
+    @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
-    HomeAdapter adapter;
+
+    private HomeAdapter adapter;
 
     @Override
     public void onResume() {
@@ -46,8 +46,8 @@ public class HomeFragment
     }
 
     @Override
-    protected void onBindView(View root) {
-        recyclerView = (RecyclerView) root.findViewById(R.id.recyclerview);
+    protected void onInitialize() {
+        super.onInitialize();
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),
@@ -59,14 +59,9 @@ public class HomeFragment
     }
 
     @Override
-    protected void onUnbindView() {
-
-    }
-
-    @Override
     protected HomePresenter createPresenter() {
         IHomeService service = ServiceClient.createService(IHomeService.class);
-        HomeInteractor interactor = new HomeInteractor(new ThreadExecutor(), service);
+        HomeInteractor interactor = new HomeInteractor(new KThreadExecutor(), service);
         return new HomePresenter(interactor);
     }
 
@@ -77,13 +72,13 @@ public class HomeFragment
     @Override
     public void showUsers(User user) {
         if(user != null && user.getData() != null) {
-            adapter.addRange(user.getData());
+            adapter.set(user.getData());
         }
     }
 
     @Override
     public void showError(Throwable exception) {
-
+        Toast.makeText(getContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -15,31 +15,13 @@
 
 package gigigo.com.kmvp;
 
-import android.support.annotation.UiThread;
-
 /**
- * Defines the base interface for every kmvp presenter
+ * Defines an interface for the {@link IInteractor} execution out of the UI thread
  *
- * @param <V> the kmvp view
- *
- * @author Juan Godínez Vera - 22/12/2016
- * @author Daniel Moises Ruiz Pérez - 22/12/2016
+ * @author Juan Godínez Vera - 5/29/2016
  * @version 2.0.0
- * @since 1.0.0
+ * @since 2.0.0
  */
-public interface IPresenter<V extends IView> {
-
-    /**
-     * Defines the method to be called to attaches the view
-     *
-     * @param view kmvp view
-     */
-    @UiThread
-    void attachView(V view);
-
-    /**
-     * Defines the method to be called when the view has been released
-     */
-    @UiThread
-    void detachView();
+public interface IExecutor {
+    void run(final IInteractor interactor);
 }

@@ -30,6 +30,5 @@ public interface IAction {
      * @param argument data type to return
      * @param <T> data type
      */
-    @AnyThread
     <T> void invoke(T argument);
 }

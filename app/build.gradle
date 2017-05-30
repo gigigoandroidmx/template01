@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
 
 def STRING = "String"
 def HOST = "HOST"
@@ -141,6 +142,11 @@ dependencies {
     compile parent.ext.libraries.retrofit
     compile parent.ext.libraries.gsonconverter
     compile parent.ext.libraries.okhttp
+
+    compile parent.ext.libraries.butterknife
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+
+
     //compile (parent.ext.libraries.kripton) { changing = true }
     //compile parent.ext.libraries.kretrofitmanager
     compile parent.ext.modules.kmvp

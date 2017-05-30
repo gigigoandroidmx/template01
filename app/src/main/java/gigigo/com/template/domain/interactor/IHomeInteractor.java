@@ -9,7 +9,7 @@ import gigigo.com.template.data.entity.User;
 public interface IHomeInteractor {
     interface Callback extends ICallback {
         void onFetchUserSucces(User data);
-        void onFecthUserError();
+        void onFecthUserError(Throwable exception);
     }
 
     void execute(Callback callback);

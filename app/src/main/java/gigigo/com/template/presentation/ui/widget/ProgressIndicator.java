@@ -17,10 +17,10 @@ import gigigo.com.template.R;
 public class ProgressIndicator
         extends Dialog {
 
-    private TextView textviewTitle;
-    private ContentLoadingProgressBar contentloadingProgressbar;
-    private TextView textviewContent;
-
+//    private TextView textviewTitle;
+//    private ContentLoadingProgressBar contentloadingProgressbar;
+//    private TextView textviewContent;
+//
     private final Context context;
 
     /**
@@ -36,30 +36,29 @@ public class ProgressIndicator
         this.context = context;
     }
 
-    @Override
-    public void setTitle(CharSequence title) {
-        if(textviewTitle != null) {
-            textviewTitle.setVisibility(View.VISIBLE);
-            textviewTitle.setText(title);
-        }
-    }
-
-    @Override
-    public void setTitle(@StringRes int titleId) {
-        setTitle(context.getText(titleId));
-    }
-
-    public void setContent(CharSequence title) {
-        if(textviewContent != null) {
-            textviewContent.setVisibility(View.VISIBLE);
-            textviewContent.setText(title);
-        }
-    }
-
-    public void setContent(@StringRes int contentId) {
-        setContent(context.getText(contentId));
-    }
-
+//    @Override
+//    public void setTitle(CharSequence title) {
+//        if(textviewTitle != null) {
+//            textviewTitle.setVisibility(View.VISIBLE);
+//            textviewTitle.setText(title);
+//        }
+//    }
+//
+//    @Override
+//    public void setTitle(@StringRes int titleId) {
+//        setTitle(context.getText(titleId));
+//    }
+//
+//    public void setContent(CharSequence title) {
+//        if(textviewContent != null) {
+//            textviewContent.setVisibility(View.VISIBLE);
+//            textviewContent.setText(title);
+//        }
+//    }
+//
+//    public void setContent(@StringRes int contentId) {
+//        setContent(context.getText(contentId));
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +68,8 @@ public class ProgressIndicator
         setCancelable(false);
         getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-        textviewTitle = (TextView) findViewById(R.id.textview_title);
-        contentloadingProgressbar = (ContentLoadingProgressBar) findViewById(R.id.contentloading_progressbar);
-        textviewContent = (TextView) findViewById(R.id.textview_content);
+//        contentloadingProgressbar = (ContentLoadingProgressBar) findViewById(R.id.contentloading_progressbar);
+//        textviewTitle = (TextView) findViewById(R.id.textview_title);
+//        textviewContent = (TextView) findViewById(R.id.textview_content);
     }
 }

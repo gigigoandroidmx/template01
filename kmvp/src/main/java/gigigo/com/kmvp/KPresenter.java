@@ -36,7 +36,6 @@ public abstract class KPresenter<V extends IView>
     protected final String TAG = getClass().getSimpleName();
 
     private WeakReference<V> viewReference;
-    private boolean forceUpdate;
     private List<Object> parameters;
 
     /**
@@ -61,17 +60,6 @@ public abstract class KPresenter<V extends IView>
     }
 
     /**
-     * Defines the method to be invoked when needs refresh the data source.
-     * Default value is <code>false</code>
-     *
-     * @param force <code>true</code>, whether needs refresh, otherwise <code>false</code>
-     */
-    @Override
-    public void forceUpdate(boolean force) {
-        forceUpdate = force;
-    }
-
-    /**
      * Determines if the view is attached
      * @return <code>true</code>, whether view is attached, otherwise <code>false</code>
      */
@@ -87,14 +75,6 @@ public abstract class KPresenter<V extends IView>
     @UiThread
     public V getView() {
         return viewReference == null ? null : viewReference.get();
-    }
-
-    /**
-     * Gets whether view needs refresh the data source
-     * @return <code>true</code>, whether needs refresh, otherwise <code>false</code>
-     */
-    public boolean isForceUpdate() {
-        return forceUpdate;
     }
 
     /**

@@ -50,9 +50,14 @@ public abstract class KFragment<V extends IView, P extends IPresenter<V>>
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(getLayoutResourceId(), container, false);
-        onInitialize();
         onBindView(root);
+        onInitialize();
         return root;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     //region Handling Lifecycle Fragment
