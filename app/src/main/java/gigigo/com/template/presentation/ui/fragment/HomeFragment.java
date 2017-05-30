@@ -13,6 +13,7 @@ import gigigo.com.kretrofitmanager.ServiceClient;
 import gigigo.com.template.R;
 import gigigo.com.template.data.entity.User;
 import gigigo.com.template.domain.interactor.HomeInteractor;
+import gigigo.com.template.domain.interactor.ThreadExecutor;
 import gigigo.com.template.domain.service.IHomeService;
 import gigigo.com.template.presentation.presenter.HomePresenter;
 import gigigo.com.template.presentation.ui.adapter.HomeAdapter;
@@ -65,7 +66,7 @@ public class HomeFragment
     @Override
     protected HomePresenter createPresenter() {
         IHomeService service = ServiceClient.createService(IHomeService.class);
-        HomeInteractor interactor = new HomeInteractor(service);
+        HomeInteractor interactor = new HomeInteractor(new ThreadExecutor(), service);
         return new HomePresenter(interactor);
     }
 
