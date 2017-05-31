@@ -73,16 +73,6 @@ public abstract class KInteractor
 
     /**
      *
-     * @param action
-     * @param data
-     * @param <T>
-     */
-    public <T> void post(IAction action, T data) {
-        mainThread.post(action, data);
-    }
-
-    /**
-     *
      * @param function
      */
     public void post(IFunction function) {

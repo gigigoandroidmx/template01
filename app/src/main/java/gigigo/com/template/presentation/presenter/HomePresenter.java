@@ -35,7 +35,7 @@ public class HomePresenter
     }
 
     @Override
-    public void onFecthUserError(Throwable exception) {
+    public void onFetchUserError(Throwable exception) {
         if(!isViewAttached()) return;
 
         getView().showLoading(false);

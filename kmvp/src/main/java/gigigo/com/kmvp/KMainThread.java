@@ -1,6 +1,5 @@
 package gigigo.com.kmvp;
 
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -27,19 +26,6 @@ public class KMainThread {
                 @Override
                 public void run() {
                     function.apply();
-                }
-            });
-        }
-    }
-
-    public <T> void post(final IAction action, final T data) {
-        if(isOnUiThread()) {
-            action.invoke(data);
-        } else {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    action.invoke(data);
                 }
             });
         }
