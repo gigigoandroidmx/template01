@@ -40,8 +40,8 @@ ext{
     modules = [
             // E.G.
             // module_alias :                    project(':module_name')
-            kmvp :                      project(':kmvp'),
-            kretrofitmanager :          project(':kretrofitmanager')
+//            kmvp :                      project(':kmvp'),
+//            kretrofitmanager :          project(':kretrofitmanager')
     ]
 
     //Testing

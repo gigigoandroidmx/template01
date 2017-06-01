@@ -126,7 +126,7 @@ android {
 }
 configurations.all {
     // Check for updates every build
-    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+//    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 dependencies {
@@ -147,10 +147,13 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 
 
-    //compile (parent.ext.libraries.kripton) { changing = true }
-    //compile parent.ext.libraries.kretrofitmanager
-    compile parent.ext.modules.kmvp
-    compile parent.ext.modules.kretrofitmanager
+    compile (parent.ext.libraries.kripton) {
+//        changing = true
+    }
+    compile (parent.ext.libraries.kretrofitmanager) {
+//        changing = true
+    }
+
     compile 'com.android.support:support-v4:25.3.1'
 
     compile (parent.ext.libraries.logginginterceptor) {
