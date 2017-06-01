@@ -12,14 +12,20 @@ ext{
     retrofitVersion = '2.2.0'
     gsonVersion = '2.1.0'
     okhttpVersion = '3.7.0'
+    logginginterceptorVersion = '2.0.0'
     butterknifeVersion = '8.6.0'
+    saripaarVersion = '2.0.3'
+    materialdialogsVersion = '0.9.4.5'
 
     //Packages
     junitPackage = 'junit'
     supportPackage = 'com.android.support'
     retrofitPackage = 'com.squareup.retrofit2'
     okhttpPackage = 'com.squareup.okhttp3'
-    butterknife = 'com.jakewharton'
+    logginginterceptorPackage  = 'com.github.ihsanbal'
+    butterknifePackage = 'com.jakewharton'
+    saripaarPackage = 'com.mobsandgeeks'
+    materialdialogsPackage = 'com.afollestad.material-dialogs'
 
     //Libraries
     libraries = [
@@ -30,10 +36,13 @@ ext{
             retrofit :                  buildDependency(retrofitPackage, 'retrofit', retrofitVersion),
             gsonconverter :             buildDependency(retrofitPackage, 'converter-gson', gsonVersion),
             okhttp :                    buildDependency(okhttpPackage, 'logging-interceptor', okhttpVersion),
-            butterknife :               buildDependency(butterknife, 'butterknife', butterknifeVersion),
+            logginginterceptor :        buildDependency(logginginterceptorPackage, 'LoggingInterceptor', logginginterceptorVersion),
+            butterknife :               buildDependency(butterknifePackage, 'butterknife', butterknifeVersion),
+            saripaar :                  buildDependency(saripaarPackage, 'android-saripaar', saripaarVersion),
+            materialdialogs :           buildDependency(materialdialogsPackage, 'core', materialdialogsVersion),
+
             kripton :                   'com.github.gigigoandroidmx:kripton:develop-SNAPSHOT',
-            kretrofitmanager :          'com.github.gigigoandroidmx:kretrofitmanager:develop-SNAPSHOT',
-            logginginterceptor :        'com.github.ihsanbal:LoggingInterceptor:2.0.0'
+            kretrofitmanager :          'com.github.gigigoandroidmx:kretrofitmanager:develop-SNAPSHOT'
     ]
 
     //Modules
