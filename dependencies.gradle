@@ -16,6 +16,7 @@ ext{
     butterknifeVersion = '8.6.0'
     saripaarVersion = '2.0.3'
     materialdialogsVersion = '0.9.4.5'
+    glideVersion = '3.8.0'
 
     //Packages
     junitPackage = 'junit'
@@ -26,6 +27,7 @@ ext{
     butterknifePackage = 'com.jakewharton'
     saripaarPackage = 'com.mobsandgeeks'
     materialdialogsPackage = 'com.afollestad.material-dialogs'
+    glidePackage = 'com.github.bumptech.glide'
 
     //Libraries
     libraries = [
@@ -40,6 +42,7 @@ ext{
             butterknife :               buildDependency(butterknifePackage, 'butterknife', butterknifeVersion),
             saripaar :                  buildDependency(saripaarPackage, 'android-saripaar', saripaarVersion),
             materialdialogs :           buildDependency(materialdialogsPackage, 'core', materialdialogsVersion),
+            glide :                     buildDependency(glidePackage, 'glide', glideVersion),
 
             kripton :                   'com.github.gigigoandroidmx:kripton:develop-SNAPSHOT',
             kretrofitmanager :          'com.github.gigigoandroidmx:kretrofitmanager:develop-SNAPSHOT'
@@ -49,8 +52,6 @@ ext{
     modules = [
             // E.G.
             // module_alias :                    project(':module_name')
-//            kmvp :                      project(':kmvp'),
-//            kretrofitmanager :          project(':kretrofitmanager')
     ]
 
     //Testing

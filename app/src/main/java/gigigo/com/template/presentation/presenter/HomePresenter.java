@@ -1,9 +1,12 @@
 package gigigo.com.template.presentation.presenter;
 
 import gigigo.com.kmvp.KPresenter;
-import gigigo.com.template.data.entity.User;
-import gigigo.com.template.domain.interactor.HomeInteractor;
-import gigigo.com.template.domain.interactor.IHomeInteractor;
+import gigigo.com.template.data.entity.ListUsers;
+import gigigo.com.template.data.entity.SinlgeUser;
+import gigigo.com.template.domain.interactor.ISingleUserInteractor;
+import gigigo.com.template.domain.interactor.ListUserInteractor;
+import gigigo.com.template.domain.interactor.IListUserInteractor;
+import gigigo.com.template.domain.interactor.SingleUserInteractor;
 import gigigo.com.template.presentation.ui.view.home.IViewHome;
 
 /**
@@ -11,31 +14,50 @@ import gigigo.com.template.presentation.ui.view.home.IViewHome;
  */
 public class HomePresenter
         extends KPresenter<IViewHome>
-        implements IHomeInteractor.Callback {
+        implements IListUserInteractor.Callback, ISingleUserInteractor.Callback {
 
-    private final HomeInteractor interactor;
+    private final ListUserInteractor listUserInteractor;
+    private final SingleUserInteractor singleUserInteractor;
 
-    public HomePresenter(HomeInteractor interactor) {
-        this.interactor = interactor;
+    public HomePresenter(ListUserInteractor listUserInteractor, SingleUserInteractor singleUserInteractor) {
+        this.listUserInteractor = listUserInteractor;
+        this.singleUserInteractor = singleUserInteractor;
     }
 
     public void getUserList() {
         if(!isViewAttached()) return;
 
         getView().showLoading(true);
-        interactor.execute(this);
+        listUserInteractor.setParams(getParams());
+        listUserInteractor.execute(this);
+    }
+
+    public void getSingleUser() {
+        if(!isViewAttached()) return;
+
+        getView().showLoading(true);
+        singleUserInteractor.setParams(getParams());
+        singleUserInteractor.execute(this);
     }
 
     @Override
-    public void onFetchUserSucces(User data) {
+    public void onFetchListUsersSuccess(ListUsers data) {
         if(!isViewAttached()) return;
 
         getView().showLoading(false);
-        getView().showUsers(data);
+        getView().showListUsers(data);
     }
 
     @Override
-    public void onFetchUserError(Throwable exception) {
+    public void onFetchSingleUserSuccess(SinlgeUser data) {
+        if(!isViewAttached()) return;
+
+        getView().showLoading(false);
+        getView().showSingleUser(data);
+    }
+
+    @Override
+    public void onError(Throwable exception) {
         if(!isViewAttached()) return;
 
         getView().showLoading(false);

@@ -126,7 +126,7 @@ android {
 }
 configurations.all {
     // Check for updates every build
-//    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 
 dependencies {
@@ -142,16 +142,17 @@ dependencies {
     compile parent.ext.libraries.retrofit
     compile parent.ext.libraries.gsonconverter
     compile parent.ext.libraries.okhttp
+    compile parent.ext.libraries.glide
 
     compile parent.ext.libraries.butterknife
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 
-
     compile (parent.ext.libraries.kripton) {
-//        changing = true
+        changing = true
     }
+
     compile (parent.ext.libraries.kretrofitmanager) {
-//        changing = true
+        changing = true
     }
 
     compile 'com.android.support:support-v4:25.3.1'

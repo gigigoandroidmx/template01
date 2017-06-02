@@ -4,15 +4,21 @@ package gigigo.com.template.presentation.ui.fragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
+import gigigo.com.kmvp.IAction;
+import gigigo.com.kmvp.KMainThread;
 import gigigo.com.kretrofitmanager.ServiceClient;
 import gigigo.com.template.R;
+import gigigo.com.template.data.entity.ListUsers;
+import gigigo.com.template.data.entity.SinlgeUser;
 import gigigo.com.template.data.entity.User;
-import gigigo.com.template.domain.interactor.HomeInteractor;
+import gigigo.com.template.domain.interactor.ListUserInteractor;
 import gigigo.com.kmvp.KThreadExecutor;
-import gigigo.com.template.domain.service.IHomeService;
+import gigigo.com.template.domain.interactor.SingleUserInteractor;
+import gigigo.com.template.domain.service.IApiService;
 import gigigo.com.template.presentation.presenter.HomePresenter;
 import gigigo.com.template.presentation.ui.adapter.HomeAdapter;
 import gigigo.com.template.presentation.ui.base.KFragmentBase;
@@ -26,10 +32,18 @@ public class HomeFragment
         extends KFragmentBase<IViewHome, HomePresenter>
         implements IViewHome {
 
+    private final KMainThread mainThread = new KMainThread();
+
+
+
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
+    @BindView(R.id.textview_userdetail)
+    TextView textviewUserDetail;
+
     private HomeAdapter adapter;
+
 
     @Override
     public void onResume() {
@@ -54,15 +68,28 @@ public class HomeFragment
                 LinearLayoutManager.VERTICAL,
                 false));
 
-        adapter = new HomeAdapter();
+
+
+        adapter = new HomeAdapter(new IAction<User>() {
+            @Override
+            public void invoke(User argument) {
+                if(null == argument) return;
+
+                presenter.setParams(argument.getId());
+                presenter.getSingleUser();
+            }
+        });
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     protected HomePresenter createPresenter() {
-        IHomeService service = ServiceClient.createService(IHomeService.class);
-        HomeInteractor interactor = new HomeInteractor(new KThreadExecutor(), service);
-        return new HomePresenter(interactor);
+        IApiService service = ServiceClient.createService(IApiService.class);
+        KThreadExecutor threadExecutor = new KThreadExecutor();
+
+        ListUserInteractor listUserInteractor = new ListUserInteractor(threadExecutor, service);
+        SingleUserInteractor singleUserInteractor = new SingleUserInteractor(threadExecutor, service);
+        return new HomePresenter(listUserInteractor, singleUserInteractor);
     }
 
     //endregion
@@ -70,10 +97,32 @@ public class HomeFragment
     //region IViewHome members
 
     @Override
-    public void showUsers(User user) {
-        if(user != null && user.getData() != null) {
-            adapter.set(user.getData());
-        }
+    public void showListUsers(final ListUsers listUsers) {
+        if(null == listUsers || listUsers.getUserList() == null) return;
+
+        mainThread.post(new Runnable() {
+            @Override
+            public void run() {
+                adapter.set(listUsers.getUserList());
+            }
+        });
+    }
+
+    @Override
+    public void showSingleUser(final SinlgeUser user) {
+        if(null == user || user.getData() == null) return;
+
+        mainThread.post(new Runnable() {
+            @Override
+            public void run() {
+
+                String data = "Id: " + String.valueOf(user.getData().getId()) + "\n" +
+                        "First Name: " + user.getData().getFirstName() + "\n" +
+                        "Last Name: " + user.getData().getLastName();
+
+                textviewUserDetail.setText(data);
+            }
+        });
     }
 
     @Override

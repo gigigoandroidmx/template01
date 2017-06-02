@@ -1,6 +1,5 @@
 package gigigo.com.template.data.entity;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,60 +8,49 @@ import com.google.gson.annotations.SerializedName;
  */
 public class User {
 
-    @SerializedName("page")
+    @SerializedName("id")
     @Expose
-    private String page;
-    @SerializedName("per_page")
+    private Integer id;
+    @SerializedName("first_name")
     @Expose
-    private Integer perPage;
-    @SerializedName("total")
+    private String firstName;
+    @SerializedName("last_name")
     @Expose
-    private Integer total;
-    @SerializedName("total_pages")
+    private String lastName;
+    @SerializedName("avatar")
     @Expose
-    private Integer totalPages;
-    @SerializedName("data")
-    @Expose
-    private List<Datum> data = null;
+    private String avatar;
 
-    public String getPage() {
-        return page;
+    public Integer getId() {
+        return id;
     }
 
-    public void setPage(String page) {
-        this.page = page;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getPerPage() {
-        return perPage;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setPerPage(Integer perPage) {
-        this.perPage = perPage;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public Integer getTotal() {
-        return total;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setTotal(Integer total) {
-        this.total = total;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public Integer getTotalPages() {
-        return totalPages;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setTotalPages(Integer totalPages) {
-        this.totalPages = totalPages;
-    }
-
-    public List<Datum> getData() {
-        return data;
-    }
-
-    public void setData(List<Datum> data) {
-        this.data = data;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
 }
