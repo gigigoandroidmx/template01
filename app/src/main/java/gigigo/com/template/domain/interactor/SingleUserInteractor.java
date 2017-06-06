@@ -21,7 +21,6 @@ public class SingleUserInteractor
     private final IApiService service;
     private final IExecutor executor;
 
-    private Callback callback;
     private Bus bus;
 
     public SingleUserInteractor(IExecutor executor, IApiService service, Bus bus) {
@@ -44,25 +43,18 @@ public class SingleUserInteractor
         call.enqueue(new CallbackAdapter<SinlgeUser>() {
             @Override
             public void onSuccess(final SinlgeUser data) {
-                /*callback.onFetchSingleUserSuccess(data);*/
                 bus.post(new SingleUserEvent(data));
             }
 
             @Override
             public void onError(final Throwable exception) {
-                /*callback.onError(exception);*/
                 bus.post(new ErrorEvent(exception));
             }
         });
     }
 
     @Override
-    public void execute(Callback callback) {
-        if(null == callback) {
-            throw new IllegalArgumentException("Callback can't be null");
-        }
-
-        this.callback = callback;
+    public void execute() {
         executor.run(this);
     }
 }

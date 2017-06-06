@@ -20,8 +20,6 @@ public class ListUserInteractor
 
     private final IApiService service;
     private final IExecutor executor;
-
-    private Callback callback;
     private Bus bus;
 
     public ListUserInteractor(IExecutor executor, IApiService service, Bus bus) {
@@ -44,13 +42,11 @@ public class ListUserInteractor
         call.enqueue(new CallbackAdapter<ListUsers>() {
             @Override
             public void onSuccess(final ListUsers data) {
-//                callback.onFetchListUsersSuccess(data);
                 bus.post(new UsersListEvent(data));
             }
 
             @Override
             public void onError(final Throwable exception) {
-//                callback.onError(exception);
                 bus.post(new ErrorEvent(exception));
             }
         });
@@ -58,12 +54,7 @@ public class ListUserInteractor
 
 
     @Override
-    public void execute(Callback callback) {
-        if(null == callback) {
-            throw new IllegalArgumentException("Callback can't be null");
-        }
-
-        this.callback = callback;
+    public void execute() {
         executor.run(this);
     }
 }
