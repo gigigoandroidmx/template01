@@ -6,6 +6,9 @@ import gigigo.com.kretrofitmanager.CallbackAdapter;
 import gigigo.com.kretrofitmanager.ICall;
 import gigigo.com.kretrofitmanager.ICallbackAdapter;
 import gigigo.com.template.data.entity.SinlgeUser;
+import gigigo.com.template.domain.base.Bus;
+import gigigo.com.template.domain.event.ErrorEvent;
+import gigigo.com.template.domain.event.SingleUserEvent;
 import gigigo.com.template.domain.service.IApiService;
 
 /**
@@ -19,10 +22,12 @@ public class SingleUserInteractor
     private final IExecutor executor;
 
     private Callback callback;
+    private Bus bus;
 
-    public SingleUserInteractor(IExecutor executor, IApiService service) {
+    public SingleUserInteractor(IExecutor executor, IApiService service, Bus bus) {
         this.executor = executor;
         this.service = service;
+        this.bus = bus;
     }
 
     /**
@@ -39,12 +44,14 @@ public class SingleUserInteractor
         call.enqueue(new CallbackAdapter<SinlgeUser>() {
             @Override
             public void onSuccess(final SinlgeUser data) {
-                callback.onFetchSingleUserSuccess(data);
+                /*callback.onFetchSingleUserSuccess(data);*/
+                bus.post(new SingleUserEvent(data));
             }
 
             @Override
             public void onError(final Throwable exception) {
-                callback.onError(exception);
+                /*callback.onError(exception);*/
+                bus.post(new ErrorEvent(exception));
             }
         });
     }

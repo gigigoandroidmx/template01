@@ -10,6 +10,8 @@ import com.ihsanbal.logging.LoggingInterceptor;
 import gigigo.com.kretrofitmanager.CallAdapterFactory;
 import gigigo.com.kretrofitmanager.ServiceClient;
 import gigigo.com.template.BuildConfig;
+import gigigo.com.template.domain.BusImpl;
+import gigigo.com.template.domain.base.Bus;
 import gigigo.com.template.presentation.utils.Connectivity;
 import gigigo.com.template.presentation.utils.RequestInterceptor;
 import okhttp3.internal.platform.Platform;
@@ -62,5 +64,15 @@ public class App
                 .addEndpoint(BuildConfig.HOST)
                 .setConverterFactory(GsonConverterFactory.create(gson));
 
+    }
+
+    private static Bus busSingleton;
+
+    public static Bus getBusSingleton() {
+        if (busSingleton == null) {
+            busSingleton = new BusImpl();
+        }
+
+        return busSingleton;
     }
 }

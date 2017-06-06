@@ -10,15 +10,16 @@ import android.widget.Toast;
 import butterknife.BindView;
 import gigigo.com.kmvp.IAction;
 import gigigo.com.kmvp.KMainThread;
+import gigigo.com.kmvp.KThreadExecutor;
 import gigigo.com.kretrofitmanager.ServiceClient;
 import gigigo.com.template.R;
 import gigigo.com.template.data.entity.ListUsers;
 import gigigo.com.template.data.entity.SinlgeUser;
 import gigigo.com.template.data.entity.User;
 import gigigo.com.template.domain.interactor.ListUserInteractor;
-import gigigo.com.kmvp.KThreadExecutor;
 import gigigo.com.template.domain.interactor.SingleUserInteractor;
 import gigigo.com.template.domain.service.IApiService;
+import gigigo.com.template.presentation.App;
 import gigigo.com.template.presentation.presenter.HomePresenter;
 import gigigo.com.template.presentation.ui.adapter.HomeAdapter;
 import gigigo.com.template.presentation.ui.base.KFragmentBase;
@@ -50,6 +51,14 @@ public class HomeFragment
         super.onResume();
         presenter.setParams(1);
         presenter.getUserList();
+
+        presenter.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.onPause();
     }
 
     //region KFragment members
@@ -87,9 +96,9 @@ public class HomeFragment
         IApiService service = ServiceClient.createService(IApiService.class);
         KThreadExecutor threadExecutor = new KThreadExecutor();
 
-        ListUserInteractor listUserInteractor = new ListUserInteractor(threadExecutor, service);
-        SingleUserInteractor singleUserInteractor = new SingleUserInteractor(threadExecutor, service);
-        return new HomePresenter(listUserInteractor, singleUserInteractor);
+        ListUserInteractor listUserInteractor = new ListUserInteractor(threadExecutor, service, App.getBusSingleton());
+        SingleUserInteractor singleUserInteractor = new SingleUserInteractor(threadExecutor, service, App.getBusSingleton());
+        return new HomePresenter(listUserInteractor, singleUserInteractor, App.getBusSingleton());
     }
 
     //endregion
