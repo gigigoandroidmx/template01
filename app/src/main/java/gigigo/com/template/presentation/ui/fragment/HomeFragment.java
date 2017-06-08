@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import gigigo.com.kmvp.IAction;
-import gigigo.com.kmvp.KMainThread;
 import gigigo.com.kmvp.KThreadExecutor;
 import gigigo.com.kretrofitmanager.ServiceClient;
 import gigigo.com.template.R;
@@ -29,13 +28,7 @@ import gigigo.com.template.presentation.ui.view.home.IViewHome;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment
-        extends KFragmentBase<IViewHome, HomePresenter>
-        implements IViewHome {
-
-    private final KMainThread mainThread = new KMainThread();
-
-
+public class HomeFragment extends KFragmentBase<IViewHome, HomePresenter> implements IViewHome {
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
@@ -44,7 +37,6 @@ public class HomeFragment
     TextView textviewUserDetail;
 
     private HomeAdapter adapter;
-
 
     @Override
     public void onResume() {
@@ -78,11 +70,10 @@ public class HomeFragment
                 false));
 
 
-
         adapter = new HomeAdapter(new IAction<User>() {
             @Override
             public void invoke(User argument) {
-                if(null == argument) return;
+                if (null == argument) return;
 
                 presenter.setParams(argument.getId());
                 presenter.getSingleUser();
@@ -95,10 +86,13 @@ public class HomeFragment
     protected HomePresenter createPresenter() {
         IApiService service = ServiceClient.createService(IApiService.class);
         KThreadExecutor threadExecutor = new KThreadExecutor();
+        ListUserInteractor listUserInteractor = new ListUserInteractor(service,
+                                                                       App.getBusSingleton());
+        SingleUserInteractor singleUserInteractor = new SingleUserInteractor(service,
+                                                                       App.getBusSingleton());
 
-        ListUserInteractor listUserInteractor = new ListUserInteractor(threadExecutor, service, App.getBusSingleton());
-        SingleUserInteractor singleUserInteractor = new SingleUserInteractor(threadExecutor, service, App.getBusSingleton());
-        return new HomePresenter(listUserInteractor, singleUserInteractor, App.getBusSingleton());
+        return new HomePresenter(listUserInteractor, singleUserInteractor, threadExecutor,
+                                App.getBusSingleton());
     }
 
     //endregion
@@ -107,31 +101,19 @@ public class HomeFragment
 
     @Override
     public void showListUsers(final ListUsers listUsers) {
-        if(null == listUsers || listUsers.getUserList() == null) return;
-
-        mainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                adapter.set(listUsers.getUserList());
-            }
-        });
+        if (null == listUsers || listUsers.getUserList() == null) return;
+        adapter.set(listUsers.getUserList());
     }
 
     @Override
     public void showSingleUser(final SinlgeUser user) {
-        if(null == user || user.getData() == null) return;
+        if (null == user || user.getData() == null) return;
 
-        mainThread.post(new Runnable() {
-            @Override
-            public void run() {
+        String data = "Id: " + String.valueOf(user.getData().getId()) + "\n" +
+                "First Name: " + user.getData().getFirstName() + "\n" +
+                "Last Name: " + user.getData().getLastName();
 
-                String data = "Id: " + String.valueOf(user.getData().getId()) + "\n" +
-                        "First Name: " + user.getData().getFirstName() + "\n" +
-                        "Last Name: " + user.getData().getLastName();
-
-                textviewUserDetail.setText(data);
-            }
-        });
+        textviewUserDetail.setText(data);
     }
 
     @Override

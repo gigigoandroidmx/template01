@@ -1,6 +1,5 @@
 package gigigo.com.template.domain.interactor;
 
-import gigigo.com.kmvp.IExecutor;
 import gigigo.com.kmvp.KInteractor;
 import gigigo.com.kretrofitmanager.CallbackAdapter;
 import gigigo.com.kretrofitmanager.ICall;
@@ -14,16 +13,12 @@ import gigigo.com.template.domain.service.IApiService;
 /**
  * @author Juan Godínez Vera - 5/23/2017.
  */
-public class ListUserInteractor
-        extends KInteractor
-        implements IListUserInteractor {
+public class ListUserInteractor extends KInteractor {
 
     private final IApiService service;
-    private final IExecutor executor;
     private Bus bus;
 
-    public ListUserInteractor(IExecutor executor, IApiService service, Bus bus) {
-        this.executor = executor;
+    public ListUserInteractor(IApiService service, Bus bus) {
         this.service = service;
         this.bus = bus;
     }
@@ -50,11 +45,5 @@ public class ListUserInteractor
                 bus.post(new ErrorEvent(exception));
             }
         });
-    }
-
-
-    @Override
-    public void execute() {
-        executor.run(this);
     }
 }

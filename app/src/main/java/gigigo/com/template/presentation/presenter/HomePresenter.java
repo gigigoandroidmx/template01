@@ -3,6 +3,7 @@ package gigigo.com.template.presentation.presenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import gigigo.com.kmvp.KThreadExecutor;
 import gigigo.com.template.domain.base.Bus;
 import gigigo.com.template.domain.event.ErrorEvent;
 import gigigo.com.template.domain.event.SingleUserEvent;
@@ -19,10 +20,16 @@ public class HomePresenter
 
     private final ListUserInteractor listUserInteractor;
     private final SingleUserInteractor singleUserInteractor;
+    private KThreadExecutor kThreadExecutor;
 
-    public HomePresenter(ListUserInteractor listUserInteractor, SingleUserInteractor singleUserInteractor, Bus bus) {
+    public HomePresenter(ListUserInteractor listUserInteractor,
+                         SingleUserInteractor singleUserInteractor,
+                         KThreadExecutor kThreadExecutor,
+                         Bus bus) {
+
         this.listUserInteractor = listUserInteractor;
         this.singleUserInteractor = singleUserInteractor;
+        this.kThreadExecutor = kThreadExecutor;
         this.bus = bus;
     }
 
@@ -31,7 +38,7 @@ public class HomePresenter
 
         getView().showLoading(true);
         listUserInteractor.setParams(getParams());
-        listUserInteractor.execute();
+        kThreadExecutor.run(listUserInteractor);
     }
 
     public void getSingleUser() {
@@ -39,7 +46,7 @@ public class HomePresenter
 
         getView().showLoading(true);
         singleUserInteractor.setParams(getParams());
-        singleUserInteractor.execute();
+        kThreadExecutor.run(singleUserInteractor);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

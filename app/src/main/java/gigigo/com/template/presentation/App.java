@@ -63,7 +63,6 @@ public class App
                 .setConnectivityInterceptor(requestInterceptor)
                 .addEndpoint(BuildConfig.HOST)
                 .setConverterFactory(GsonConverterFactory.create(gson));
-
     }
 
     private static Bus busSingleton;
