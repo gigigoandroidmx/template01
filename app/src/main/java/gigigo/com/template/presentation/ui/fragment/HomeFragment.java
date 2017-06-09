@@ -27,11 +27,10 @@ import gigigo.com.template.presentation.ui.view.home.IViewHome;
 /**
  * A simple {@link Fragment} subclass.
  */
+
 public class HomeFragment
         extends KFragmentBase<IViewHome, HomePresenter>
         implements IViewHome {
-
-
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
@@ -40,7 +39,6 @@ public class HomeFragment
     TextView textviewUserDetail;
 
     private HomeAdapter adapter;
-
 
     @Override
     public void onResume() {
@@ -74,11 +72,10 @@ public class HomeFragment
                 false));
 
 
-
         adapter = new HomeAdapter(new IAction<User>() {
             @Override
             public void invoke(User argument) {
-                if(null == argument) return;
+                if (null == argument) return;
 
                 presenter.setParams(argument.getId());
                 presenter.getSingleUser();
@@ -92,9 +89,10 @@ public class HomeFragment
         IApiService service = ServiceClient.createService(IApiService.class);
         KThreadExecutor threadExecutor = new KThreadExecutor();
 
-        ListUserInteractor listUserInteractor = new ListUserInteractor(threadExecutor, service);
-        SingleUserInteractor singleUserInteractor = new SingleUserInteractor(threadExecutor, service);
-        return new HomePresenter(listUserInteractor, singleUserInteractor);
+        ListUserInteractor listUserInteractor = new ListUserInteractor(service);
+        SingleUserInteractor singleUserInteractor = new SingleUserInteractor(service);
+
+        return new HomePresenter(listUserInteractor, singleUserInteractor, threadExecutor);
     }
 
     //endregion
@@ -103,15 +101,13 @@ public class HomeFragment
 
     @Override
     public void showListUsers(final ListUsers listUsers) {
-        if(null == listUsers || listUsers.getUserList() == null) return;
-
+        if (null == listUsers || listUsers.getUserList() == null) return;
         adapter.set(listUsers.getUserList());
     }
 
     @Override
     public void showSingleUser(final SinlgeUser user) {
-        if(null == user || user.getData() == null) return;
-
+        if (null == user || user.getData() == null) return;
 
         String data = "Id: " + String.valueOf(user.getData().getId()) + "\n" +
                 "First Name: " + user.getData().getFirstName() + "\n" +

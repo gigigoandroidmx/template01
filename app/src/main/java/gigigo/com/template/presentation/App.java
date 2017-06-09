@@ -62,13 +62,12 @@ public class App
                 .setCallAdapterFactory(new CallAdapterFactory())
                 .setConnectivityInterceptor(requestInterceptor)
                 .addEndpoint(BuildConfig.HOST)
-                .setConverterFactory(GsonConverterFactory.create(gson));
+                .addConverterFactory(GsonConverterFactory.create(gson));
 
         /* Configuration eventbus */
         EventBus.builder()
                 .logNoSubscriberMessages(false)
                 .sendNoSubscriberEvent(false)
                 .installDefaultEventBus();
-
     }
 }

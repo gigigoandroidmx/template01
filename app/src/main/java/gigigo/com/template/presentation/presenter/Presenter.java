@@ -24,7 +24,9 @@ public abstract class Presenter<T extends IView> extends KPresenter<T> {
     @Subscribe
     public void onSubscriberExceptionEvent(SubscriberExceptionEvent exceptionEvent) {
         if(exceptionEvent != null) {
-            getView().onError(exceptionEvent.throwable);
+            onErrorBus(exceptionEvent.throwable);
         }
     }
+
+    public abstract void onErrorBus(Throwable exception);
 }

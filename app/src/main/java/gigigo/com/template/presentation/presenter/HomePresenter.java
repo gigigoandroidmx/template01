@@ -3,8 +3,7 @@ package gigigo.com.template.presentation.presenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import gigigo.com.template.data.entity.ListUsers;
-import gigigo.com.template.data.entity.SinlgeUser;
+import gigigo.com.kmvp.KThreadExecutor;
 import gigigo.com.template.domain.event.ErrorEvent;
 import gigigo.com.template.domain.event.SingleUserEvent;
 import gigigo.com.template.domain.event.UsersListEvent;
@@ -20,10 +19,15 @@ public class HomePresenter
 
     private final ListUserInteractor listUserInteractor;
     private final SingleUserInteractor singleUserInteractor;
+    private KThreadExecutor kThreadExecutor;
 
-    public HomePresenter(ListUserInteractor listUserInteractor, SingleUserInteractor singleUserInteractor) {
+    public HomePresenter(ListUserInteractor listUserInteractor,
+                         SingleUserInteractor singleUserInteractor,
+                         KThreadExecutor kThreadExecutor) {
+
         this.listUserInteractor = listUserInteractor;
         this.singleUserInteractor = singleUserInteractor;
+        this.kThreadExecutor = kThreadExecutor;
     }
 
     public void getUserList() {
@@ -31,7 +35,7 @@ public class HomePresenter
 
         getView().showLoading(true);
         listUserInteractor.setParams(getParams());
-        listUserInteractor.execute();
+        kThreadExecutor.run(listUserInteractor);
     }
 
     public void getSingleUser() {
@@ -39,23 +43,7 @@ public class HomePresenter
 
         getView().showLoading(true);
         singleUserInteractor.setParams(getParams());
-        singleUserInteractor.execute();
-    }
-
-    @Override
-    public void onFetchListUsersSuccess(ListUsers data) {
-        if(!isViewAttached()) return;
-
-        getView().showLoading(false);
-        getView().showListUsers(data);
-    }
-
-    @Override
-    public void onFetchSingleUserSuccess(SinlgeUser data) {
-        if(!isViewAttached()) return;
-
-        getView().showLoading(false);
-        getView().showSingleUser(data);
+        kThreadExecutor.run(singleUserInteractor);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -80,5 +68,13 @@ public class HomePresenter
 
         getView().showLoading(false);
         getView().showSingleUser(singleUserEvent.getSinlgeUser());
+    }
+
+    @Override
+    public void onErrorBus(Throwable exception) {
+        if(!isViewAttached()) return;
+
+        getView().showLoading(false);
+        getView().showError(exception);
     }
 }
