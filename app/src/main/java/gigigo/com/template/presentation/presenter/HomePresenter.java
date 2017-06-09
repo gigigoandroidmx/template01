@@ -3,16 +3,12 @@ package gigigo.com.template.presentation.presenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import gigigo.com.kmvp.KPresenter;
 import gigigo.com.template.data.entity.ListUsers;
 import gigigo.com.template.data.entity.SinlgeUser;
-import gigigo.com.template.domain.base.Bus;
 import gigigo.com.template.domain.event.ErrorEvent;
 import gigigo.com.template.domain.event.SingleUserEvent;
 import gigigo.com.template.domain.event.UsersListEvent;
-import gigigo.com.template.domain.interactor.ISingleUserInteractor;
 import gigigo.com.template.domain.interactor.ListUserInteractor;
-import gigigo.com.template.domain.interactor.IListUserInteractor;
 import gigigo.com.template.domain.interactor.SingleUserInteractor;
 import gigigo.com.template.presentation.ui.view.home.IViewHome;
 
@@ -20,16 +16,14 @@ import gigigo.com.template.presentation.ui.view.home.IViewHome;
  * @author Juan Godínez Vera - 5/23/2017.
  */
 public class HomePresenter
-        extends Presenter<IViewHome>
-        implements IListUserInteractor.Callback, ISingleUserInteractor.Callback {
+        extends Presenter<IViewHome> {
 
     private final ListUserInteractor listUserInteractor;
     private final SingleUserInteractor singleUserInteractor;
 
-    public HomePresenter(ListUserInteractor listUserInteractor, SingleUserInteractor singleUserInteractor, Bus bus) {
+    public HomePresenter(ListUserInteractor listUserInteractor, SingleUserInteractor singleUserInteractor) {
         this.listUserInteractor = listUserInteractor;
         this.singleUserInteractor = singleUserInteractor;
-        this.bus = bus;
     }
 
     public void getUserList() {
@@ -37,7 +31,7 @@ public class HomePresenter
 
         getView().showLoading(true);
         listUserInteractor.setParams(getParams());
-        listUserInteractor.execute(this);
+        listUserInteractor.execute();
     }
 
     public void getSingleUser() {
@@ -45,7 +39,7 @@ public class HomePresenter
 
         getView().showLoading(true);
         singleUserInteractor.setParams(getParams());
-        singleUserInteractor.execute(this);
+        singleUserInteractor.execute();
     }
 
     @Override
@@ -62,14 +56,6 @@ public class HomePresenter
 
         getView().showLoading(false);
         getView().showSingleUser(data);
-    }
-
-    @Override
-    public void onError(Throwable exception) {
-        if(!isViewAttached()) return;
-
-        getView().showLoading(false);
-        getView().showError(exception);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

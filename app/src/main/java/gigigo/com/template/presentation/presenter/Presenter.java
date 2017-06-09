@@ -1,22 +1,30 @@
 package gigigo.com.template.presentation.presenter;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.SubscriberExceptionEvent;
+
 import gigigo.com.kmvp.IView;
 import gigigo.com.kmvp.KPresenter;
-import gigigo.com.template.domain.base.Bus;
 
 /**
  * Created by Omar on 6/6/17.
  */
 
-public class Presenter<T extends IView> extends KPresenter<T> {
-
-    protected Bus bus;
+public abstract class Presenter<T extends IView> extends KPresenter<T> {
 
     public void onResume() {
-        bus.register(this);
+        EventBus.getDefault().register(this);
     }
 
     public void onPause() {
-        bus.unregister(this);
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void onSubscriberExceptionEvent(SubscriberExceptionEvent exceptionEvent) {
+        if(exceptionEvent != null) {
+            getView().onError(exceptionEvent.throwable);
+        }
     }
 }

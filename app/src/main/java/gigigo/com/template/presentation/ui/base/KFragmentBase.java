@@ -1,10 +1,6 @@
 package gigigo.com.template.presentation.ui.base;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
