@@ -47,8 +47,8 @@ ext{
             glide :                     buildDependency(glidePackage, 'glide', glideVersion),
             eventbus:                   buildDependency(eventbusPackage, 'eventbus', eventbusVersion),
 
-            kripton :                   'com.github.gigigoandroidmx:kripton:develop-SNAPSHOT',
-            kretrofitmanager :          'com.github.gigigoandroidmx:kretrofitmanager:develop-SNAPSHOT'
+            kripton :                   'com.github.gigigoandroidmx:kripton:develop-SNAPSHOT'//,
+//            kretrofitmanager :          'com.github.gigigoandroidmx:kretrofitmanager:develop-SNAPSHOT'
     ]
 
     //Modules

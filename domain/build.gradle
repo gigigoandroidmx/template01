@@ -1,0 +1,27 @@
+apply plugin: 'java'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile parent.ext.libraries.retrofit
+    compile parent.ext.libraries.gsonconverter
+    compile parent.ext.libraries.okhttp
+    compile parent.ext.libraries.eventbus
+
+//    compile 'com.github.gigigoandroidmx:kretrofitmanager:develop-SNAPSHOT'
+
+    compile project(':data')
+
+    compile (parent.ext.libraries.logginginterceptor) {
+        exclude group: 'org.json', module: 'json'
+    }
+
+        compile project(':kretrofitmanager')
+
+//    compile (parent.ext.libraries.kretrofitmanager) {
+//        changing = true
+//    }
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"

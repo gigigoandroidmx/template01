@@ -2,7 +2,7 @@ package gigigo.com.template.presentation.utils;
 
 import java.io.IOException;
 
-import gigigo.com.kretrofitmanager.IConnectivity;
+import com.gigigo.kretrofitmanager.IConnectivity;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;

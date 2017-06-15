@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import gigigo.com.kretrofitmanager.IConnectivity;
+import com.gigigo.kretrofitmanager.IConnectivity;
 
 /**
  * @author Juan Godínez Vera - 5/16/2017.

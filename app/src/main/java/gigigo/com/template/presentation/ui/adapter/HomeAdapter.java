@@ -7,7 +7,7 @@ import gigigo.com.kmvp.IAction;
 import gigigo.com.kmvp.KAdapter;
 import gigigo.com.kmvp.KViewHolder;
 import gigigo.com.template.R;
-import gigigo.com.template.data.entity.User;
+import com.gigigo.template.data.entity.User;
 
 /**
  * @author Juan Godínez Vera - 5/23/2017.

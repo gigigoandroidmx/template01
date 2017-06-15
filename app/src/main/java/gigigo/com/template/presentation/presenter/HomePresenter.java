@@ -3,12 +3,12 @@ package gigigo.com.template.presentation.presenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import gigigo.com.kmvp.KThreadExecutor;
-import gigigo.com.template.domain.event.ErrorEvent;
-import gigigo.com.template.domain.event.SingleUserEvent;
-import gigigo.com.template.domain.event.UsersListEvent;
-import gigigo.com.template.domain.interactor.ListUserInteractor;
-import gigigo.com.template.domain.interactor.SingleUserInteractor;
+import com.gigigo.template.domain.base.KThreadExecutor;
+import com.gigigo.template.domain.event.ErrorEvent;
+import com.gigigo.template.domain.event.SingleUserEvent;
+import com.gigigo.template.domain.event.UsersListEvent;
+import com.gigigo.template.domain.interactor.ListUserInteractor;
+import com.gigigo.template.domain.interactor.SingleUserInteractor;
 import gigigo.com.template.presentation.ui.view.home.IViewHome;
 
 /**

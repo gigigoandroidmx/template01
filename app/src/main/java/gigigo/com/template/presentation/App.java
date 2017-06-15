@@ -9,8 +9,8 @@ import com.ihsanbal.logging.LoggingInterceptor;
 
 import org.greenrobot.eventbus.EventBus;
 
-import gigigo.com.kretrofitmanager.CallAdapterFactory;
-import gigigo.com.kretrofitmanager.ServiceClient;
+import com.gigigo.kretrofitmanager.CallAdapterFactory;
+import com.gigigo.kretrofitmanager.ServiceClient;
 import gigigo.com.template.BuildConfig;
 import gigigo.com.template.presentation.utils.Connectivity;
 import gigigo.com.template.presentation.utils.RequestInterceptor;
