@@ -8,19 +8,13 @@ dependencies {
     compile parent.ext.libraries.okhttp
     compile parent.ext.libraries.eventbus
 
-//    compile 'com.github.gigigoandroidmx:kretrofitmanager:develop-SNAPSHOT'
-
     compile project(':data')
 
-    compile (parent.ext.libraries.logginginterceptor) {
+    compile(parent.ext.libraries.logginginterceptor) {
         exclude group: 'org.json', module: 'json'
     }
 
-        compile project(':kretrofitmanager')
-
-//    compile (parent.ext.libraries.kretrofitmanager) {
-//        changing = true
-//    }
+    compile project(':kretrofitmanager')
 }
 
 sourceCompatibility = "1.7"

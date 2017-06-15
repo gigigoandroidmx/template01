@@ -1,5 +1,6 @@
 package com.gigigo.template.domain.interactor;
 
+import com.gigigo.kretrofitmanager.ServiceClient;
 import com.gigigo.template.data.entity.SinlgeUser;
 import com.gigigo.template.domain.base.KInteractor;
 import com.gigigo.template.domain.event.ErrorEvent;
@@ -17,11 +18,7 @@ import com.gigigo.kretrofitmanager.ICallbackAdapter;
  */
 public class SingleUserInteractor extends KInteractor {
 
-    private final IApiService service;
-
-    public SingleUserInteractor(IApiService service) {
-        this.service = service;
-    }
+    public SingleUserInteractor() {}
 
     /**
      * Defines the method to be invoked when the use case is executed
@@ -29,6 +26,7 @@ public class SingleUserInteractor extends KInteractor {
     @Override
     public void run() {
         int userId = tryGetParamValueAs(Integer.class, 0);
+        IApiService service = ServiceClient.createService(IApiService.class);
         ICall<SinlgeUser> call = service.getSingleUser(userId);
 
         /**

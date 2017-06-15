@@ -146,10 +146,11 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     compile project(':data')
     compile project(':domain')
+    compile project(':kmvp')
 
-    compile (parent.ext.libraries.kripton) {
-//        changing = true
-    }
+//    compile (parent.ext.libraries.kripton) {
+////        changing = true
+//    }
 //
 //    compile (parent.ext.libraries.kretrofitmanager) {
 ////        changing = true

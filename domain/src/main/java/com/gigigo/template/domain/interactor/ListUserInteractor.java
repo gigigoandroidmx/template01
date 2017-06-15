@@ -1,5 +1,6 @@
 package com.gigigo.template.domain.interactor;
 
+import com.gigigo.kretrofitmanager.ServiceClient;
 import com.gigigo.template.data.entity.ListUsers;
 import com.gigigo.template.domain.base.KInteractor;
 import com.gigigo.template.domain.event.ErrorEvent;
@@ -17,11 +18,7 @@ import com.gigigo.kretrofitmanager.ICallbackAdapter;
  */
 public class ListUserInteractor extends KInteractor {
 
-    private final IApiService service;
-
-    public ListUserInteractor(IApiService service) {
-        this.service = service;
-    }
+    public ListUserInteractor() {}
 
     /**
      * Defines the method to be invoked when
@@ -29,9 +26,10 @@ public class ListUserInteractor extends KInteractor {
     @Override
     public void run() {
         int page = tryGetParamValueAs(Integer.class, 0);
+        IApiService service = ServiceClient.createService(IApiService.class);
         ICall<ListUsers> call = service.getListUsers(page);
 
-        /**
+        /** 
          * implements {@link CallbackAdapter} or {@link ICallbackAdapter}
          */
         call.enqueue(new CallbackAdapter<ListUsers>() {

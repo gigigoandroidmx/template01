@@ -3,6 +3,7 @@ package gigigo.com.template.presentation.presenter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import com.gigigo.template.domain.base.IExecutor;
 import com.gigigo.template.domain.base.KThreadExecutor;
 import com.gigigo.template.domain.event.ErrorEvent;
 import com.gigigo.template.domain.event.SingleUserEvent;
@@ -19,15 +20,11 @@ public class HomePresenter
 
     private final ListUserInteractor listUserInteractor;
     private final SingleUserInteractor singleUserInteractor;
-    private KThreadExecutor kThreadExecutor;
 
     public HomePresenter(ListUserInteractor listUserInteractor,
-                         SingleUserInteractor singleUserInteractor,
-                         KThreadExecutor kThreadExecutor) {
-
+                         SingleUserInteractor singleUserInteractor) {
         this.listUserInteractor = listUserInteractor;
         this.singleUserInteractor = singleUserInteractor;
-        this.kThreadExecutor = kThreadExecutor;
     }
 
     public void getUserList() {
@@ -35,7 +32,7 @@ public class HomePresenter
 
         getView().showLoading(true);
         listUserInteractor.setParams(getParams());
-        kThreadExecutor.run(listUserInteractor);
+        getIExecutor().run(listUserInteractor);
     }
 
     public void getSingleUser() {
@@ -43,7 +40,7 @@ public class HomePresenter
 
         getView().showLoading(true);
         singleUserInteractor.setParams(getParams());
-        kThreadExecutor.run(singleUserInteractor);
+        getIExecutor().run(singleUserInteractor);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -70,11 +67,16 @@ public class HomePresenter
         getView().showSingleUser(singleUserEvent.getSinlgeUser());
     }
 
-    @Override
+    /*@Override
     public void onErrorBus(Throwable exception) {
         if(!isViewAttached()) return;
 
         getView().showLoading(false);
         getView().showError(exception);
+    }*/
+
+    @Override
+    public void handleError(Throwable exception) {
+        super.handleError(exception);
     }
 }

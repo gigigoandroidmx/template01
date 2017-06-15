@@ -1,5 +1,8 @@
 package gigigo.com.template.presentation.presenter;
 
+import com.gigigo.template.domain.base.IExecutor;
+import com.gigigo.template.domain.base.KThreadExecutor;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.SubscriberExceptionEvent;
@@ -24,9 +27,13 @@ public abstract class Presenter<T extends IView> extends KPresenter<T> {
     @Subscribe
     public void onSubscriberExceptionEvent(SubscriberExceptionEvent exceptionEvent) {
         if(exceptionEvent != null) {
-            onErrorBus(exceptionEvent.throwable);
+            handleError(exceptionEvent.throwable);
         }
     }
 
-    public abstract void onErrorBus(Throwable exception);
+//    public abstract void onErrorBus(Throwable exception);
+
+    public IExecutor getIExecutor(){
+        return new KThreadExecutor();
+    }
 }

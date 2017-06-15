@@ -87,13 +87,9 @@ public class HomeFragment
 
     @Override
     protected HomePresenter createPresenter() {
-        IApiService service = ServiceClient.createService(IApiService.class);
-        KThreadExecutor threadExecutor = new KThreadExecutor();
-
-        ListUserInteractor listUserInteractor = new ListUserInteractor(service);
-        SingleUserInteractor singleUserInteractor = new SingleUserInteractor(service);
-
-        return new HomePresenter(listUserInteractor, singleUserInteractor, threadExecutor);
+        ListUserInteractor listUserInteractor = new ListUserInteractor();
+        SingleUserInteractor singleUserInteractor = new SingleUserInteractor();
+        return new HomePresenter(listUserInteractor, singleUserInteractor);
     }
 
     //endregion
