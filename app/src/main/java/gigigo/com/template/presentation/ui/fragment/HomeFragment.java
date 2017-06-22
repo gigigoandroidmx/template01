@@ -7,16 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gigigo.kretrofitmanager.ServiceClient;
+
 import butterknife.BindView;
 import gigigo.com.kmvp.IAction;
-import gigigo.com.kmvp.KMainThread;
-import gigigo.com.kretrofitmanager.ServiceClient;
+import gigigo.com.kmvp.domain.KThreadExecutor;
 import gigigo.com.template.R;
 import gigigo.com.template.data.entity.ListUsers;
 import gigigo.com.template.data.entity.SinlgeUser;
 import gigigo.com.template.data.entity.User;
 import gigigo.com.template.domain.interactor.ListUserInteractor;
-import gigigo.com.kmvp.KThreadExecutor;
 import gigigo.com.template.domain.interactor.SingleUserInteractor;
 import gigigo.com.template.domain.service.IApiService;
 import gigigo.com.template.presentation.presenter.HomePresenter;
@@ -31,9 +31,6 @@ import gigigo.com.template.presentation.ui.view.home.IViewHome;
 public class HomeFragment
         extends KFragmentBase<IViewHome, HomePresenter>
         implements IViewHome {
-
-    private final KMainThread mainThread = new KMainThread();
-
 
 
     @BindView(R.id.recyclerview)
@@ -100,7 +97,7 @@ public class HomeFragment
     public void showListUsers(final ListUsers listUsers) {
         if(null == listUsers || listUsers.getUserList() == null) return;
 
-        mainThread.post(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 adapter.set(listUsers.getUserList());
@@ -112,7 +109,7 @@ public class HomeFragment
     public void showSingleUser(final SinlgeUser user) {
         if(null == user || user.getData() == null) return;
 
-        mainThread.post(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
 

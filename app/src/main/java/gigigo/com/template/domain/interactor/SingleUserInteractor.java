@@ -1,10 +1,10 @@
 package gigigo.com.template.domain.interactor;
 
-import gigigo.com.kmvp.IExecutor;
-import gigigo.com.kmvp.KInteractor;
-import gigigo.com.kretrofitmanager.CallbackAdapter;
-import gigigo.com.kretrofitmanager.ICall;
-import gigigo.com.kretrofitmanager.ICallbackAdapter;
+import com.gigigo.kretrofitmanager.CallbackAdapter;
+import com.gigigo.kretrofitmanager.ICall;
+
+import gigigo.com.kmvp.domain.IExecutor;
+import gigigo.com.kmvp.domain.KInteractor;
 import gigigo.com.template.data.entity.SinlgeUser;
 import gigigo.com.template.domain.service.IApiService;
 

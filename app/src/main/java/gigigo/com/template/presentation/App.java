@@ -2,13 +2,13 @@ package gigigo.com.template.presentation;
 
 import android.app.Application;
 
+import com.gigigo.kretrofitmanager.CallAdapterFactory;
+import com.gigigo.kretrofitmanager.ServiceClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ihsanbal.logging.Level;
 import com.ihsanbal.logging.LoggingInterceptor;
 
-import gigigo.com.kretrofitmanager.CallAdapterFactory;
-import gigigo.com.kretrofitmanager.ServiceClient;
 import gigigo.com.template.BuildConfig;
 import gigigo.com.template.presentation.utils.Connectivity;
 import gigigo.com.template.presentation.utils.RequestInterceptor;

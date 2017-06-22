@@ -6,11 +6,12 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.gigigo.kretrofitmanager.IConnectivity;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import gigigo.com.kretrofitmanager.IConnectivity;
 
 /**
  * @author Juan Godínez Vera - 5/16/2017.
