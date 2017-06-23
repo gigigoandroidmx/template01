@@ -2,7 +2,7 @@ package gigigo.com.template.presentation.presenter;
 
 import gigigo.com.kmvp.KPresenter;
 import gigigo.com.template.data.entity.ListUsers;
-import gigigo.com.template.data.entity.SinlgeUser;
+import gigigo.com.template.data.entity.SingleUser;
 import gigigo.com.template.domain.interactor.ISingleUserInteractor;
 import gigigo.com.template.domain.interactor.ListUserInteractor;
 import gigigo.com.template.domain.interactor.IListUserInteractor;
@@ -49,7 +49,7 @@ public class HomePresenter
     }
 
     @Override
-    public void onFetchSingleUserSuccess(SinlgeUser data) {
+    public void onFetchSingleUserSuccess(SingleUser data) {
         if(!isViewAttached()) return;
 
         getView().showLoading(false);

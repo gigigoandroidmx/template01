@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * @author Juan Godínez Vera - 6/2/2017.
  */
-public class SinlgeUser {
+public class SingleUser {
     @SerializedName("data")
     @Expose
     private User data;

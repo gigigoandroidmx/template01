@@ -5,8 +5,8 @@ import com.gigigo.kretrofitmanager.ICall;
 
 import gigigo.com.kmvp.domain.IExecutor;
 import gigigo.com.kmvp.domain.KInteractor;
-import gigigo.com.template.data.entity.SinlgeUser;
-import gigigo.com.template.domain.service.IApiService;
+import gigigo.com.template.data.entity.SingleUser;
+import gigigo.com.template.data.service.IApiService;
 
 /**
  * @author Juan Godínez Vera - 6/2/2017.
@@ -31,14 +31,14 @@ public class SingleUserInteractor
     @Override
     public void run() {
         int userId = tryGetParamValueAs(Integer.class, 0);
-        ICall<SinlgeUser> call = service.getSingleUser(userId);
+        ICall<SingleUser> call = service.getSingleUser(userId);
 
         /**
          * implements {@link CallbackAdapter} or {@link ICallbackAdapter}
          */
-        call.enqueue(new CallbackAdapter<SinlgeUser>() {
+        call.enqueue(new CallbackAdapter<SingleUser>() {
             @Override
-            public void onSuccess(final SinlgeUser data) {
+            public void onSuccess(final SingleUser data) {
                 callback.onFetchSingleUserSuccess(data);
             }
 

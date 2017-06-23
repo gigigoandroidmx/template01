@@ -6,7 +6,7 @@ import com.gigigo.kretrofitmanager.ICall;
 import gigigo.com.kmvp.domain.IExecutor;
 import gigigo.com.kmvp.domain.KInteractor;
 import gigigo.com.template.data.entity.ListUsers;
-import gigigo.com.template.domain.service.IApiService;
+import gigigo.com.template.data.service.IApiService;
 
 /**
  * @author Juan Godínez Vera - 5/23/2017.
