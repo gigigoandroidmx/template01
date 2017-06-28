@@ -1,4 +1,4 @@
-package com.gigigo.template.data.entity;
+package gigigo.com.template.data.entity;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

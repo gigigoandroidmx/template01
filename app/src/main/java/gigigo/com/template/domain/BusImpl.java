@@ -1,8 +1,8 @@
-package com.gigigo.template.domain;
+package gigigo.com.template.domain;
 
 import org.greenrobot.eventbus.EventBus;
 
-import com.gigigo.template.domain.base.Bus;
+import gigigo.com.template.domain.base.Bus;
 
 /**
  * Created by Omar on 6/6/17.

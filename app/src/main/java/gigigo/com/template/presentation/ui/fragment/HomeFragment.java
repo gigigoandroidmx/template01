@@ -8,17 +8,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
-import com.gigigo.template.domain.base.KThreadExecutor;
 
 import gigigo.com.kmvp.IAction;
-import com.gigigo.kretrofitmanager.ServiceClient;
 import gigigo.com.template.R;
-import com.gigigo.template.data.entity.ListUsers;
-import com.gigigo.template.data.entity.SinlgeUser;
-import com.gigigo.template.data.entity.User;
-import com.gigigo.template.domain.interactor.ListUserInteractor;
-import com.gigigo.template.domain.interactor.SingleUserInteractor;
-import com.gigigo.template.domain.service.IApiService;
+import gigigo.com.template.data.entity.ListUsers;
+import gigigo.com.template.data.entity.SinlgeUser;
+import gigigo.com.template.data.entity.User;
+import gigigo.com.template.domain.interactor.ListUserInteractor;
+import gigigo.com.template.domain.interactor.SingleUserInteractor;
 import gigigo.com.template.presentation.presenter.HomePresenter;
 import gigigo.com.template.presentation.ui.adapter.HomeAdapter;
 import gigigo.com.template.presentation.ui.base.KFragmentBase;

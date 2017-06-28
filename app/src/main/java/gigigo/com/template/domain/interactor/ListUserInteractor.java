@@ -1,11 +1,11 @@
-package com.gigigo.template.domain.interactor;
+package gigigo.com.template.domain.interactor;
 
 import com.gigigo.kretrofitmanager.ServiceClient;
-import com.gigigo.template.data.entity.ListUsers;
-import com.gigigo.template.domain.base.KInteractor;
-import com.gigigo.template.domain.event.ErrorEvent;
-import com.gigigo.template.domain.event.UsersListEvent;
-import com.gigigo.template.domain.service.IApiService;
+import gigigo.com.template.data.entity.ListUsers;
+import gigigo.com.template.domain.base.KInteractor;
+import gigigo.com.template.domain.event.ErrorEvent;
+import gigigo.com.template.domain.event.UsersListEvent;
+import gigigo.com.template.domain.service.IApiService;
 
 import org.greenrobot.eventbus.EventBus;
 

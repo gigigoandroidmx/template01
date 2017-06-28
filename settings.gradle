@@ -1,1 +1,1 @@
-include ':app', ':data', ':domain', ':kretrofitmanager', ':kmvp'
+include ':app', ':kretrofitmanager', ':kmvp'

@@ -1,4 +1,4 @@
-package com.gigigo.template.domain.event;
+package gigigo.com.template.domain.event;
 
 /**
  * Created by Omar on 6/6/17.

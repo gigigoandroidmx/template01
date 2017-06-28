@@ -1,6 +1,6 @@
-package com.gigigo.template.domain.event;
+package gigigo.com.template.domain.event;
 
-import com.gigigo.template.data.entity.ListUsers;
+import gigigo.com.template.data.entity.ListUsers;
 
 /**
  * Created by Omar on 6/6/17.

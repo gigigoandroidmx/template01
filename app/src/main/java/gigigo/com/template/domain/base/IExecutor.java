@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.template.domain.base;
+package gigigo.com.template.domain.base;
 
 /**
  * Defines an interface for the {@link IInteractor} execution out of the UI thread

@@ -135,17 +135,27 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
+    // Domain dependencies
+    compile parent.ext.libraries.retrofit
+    compile parent.ext.libraries.gsonconverter
+    compile parent.ext.libraries.okhttp
+    compile parent.ext.libraries.eventbus
+
+    compile(parent.ext.libraries.logginginterceptor) {
+        exclude group: 'org.json', module: 'json'
+    }
+
+    // Presentation dependencies
     compile parent.ext.testing.junit
     compile parent.ext.libraries.design
     compile parent.ext.libraries.appcompat
     compile parent.ext.libraries.recyclerview
     compile parent.ext.libraries.glide
     compile parent.ext.libraries.eventbus
-
     compile parent.ext.libraries.butterknife
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    compile project(':data')
-    compile project(':domain')
+
+    compile project(':kretrofitmanager')
     compile project(':kmvp')
 
 //    compile (parent.ext.libraries.kripton) {

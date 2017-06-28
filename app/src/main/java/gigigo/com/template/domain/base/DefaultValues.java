@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.gigigo.template.domain.base;
+package gigigo.com.template.domain.base;
 
 import java.util.Collections;
 import java.util.HashMap;

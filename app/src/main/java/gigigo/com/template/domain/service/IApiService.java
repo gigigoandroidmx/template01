@@ -1,7 +1,7 @@
-package com.gigigo.template.domain.service;
+package gigigo.com.template.domain.service;
 
-import com.gigigo.template.data.entity.ListUsers;
-import com.gigigo.template.data.entity.SinlgeUser;
+import gigigo.com.template.data.entity.ListUsers;
+import gigigo.com.template.data.entity.SinlgeUser;
 
 import com.gigigo.kretrofitmanager.ICall;
 

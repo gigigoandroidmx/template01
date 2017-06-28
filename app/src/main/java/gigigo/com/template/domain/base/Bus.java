@@ -1,4 +1,4 @@
-package com.gigigo.template.domain.base;
+package gigigo.com.template.domain.base;
 
 /**
  * Created by Omar on 6/6/17.

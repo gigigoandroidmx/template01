@@ -1,7 +1,7 @@
 package gigigo.com.template.presentation.presenter;
 
-import com.gigigo.template.domain.base.IExecutor;
-import com.gigigo.template.domain.base.KThreadExecutor;
+import gigigo.com.template.domain.base.IExecutor;
+import gigigo.com.template.domain.base.KThreadExecutor;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

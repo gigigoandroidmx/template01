@@ -6,7 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.gigigo.template.data.entity.User;
+import gigigo.com.template.data.entity.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

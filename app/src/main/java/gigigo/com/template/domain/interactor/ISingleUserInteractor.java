@@ -1,4 +1,4 @@
-package com.gigigo.template.domain.interactor;
+package gigigo.com.template.domain.interactor;
 
 /**
  * @author Juan Godínez Vera - 6/2/2017.
