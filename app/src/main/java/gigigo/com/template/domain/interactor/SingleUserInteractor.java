@@ -1,24 +1,25 @@
 package gigigo.com.template.domain.interactor;
 
 import com.gigigo.kretrofitmanager.ServiceClient;
-import gigigo.com.template.data.entity.SinlgeUser;
-import gigigo.com.template.domain.base.KInteractor;
-import gigigo.com.template.domain.event.ErrorEvent;
-import gigigo.com.template.domain.event.SingleUserEvent;
-import gigigo.com.template.domain.service.IApiService;
 
 import org.greenrobot.eventbus.EventBus;
 
-import com.gigigo.kretrofitmanager.CallbackAdapter;
-import com.gigigo.kretrofitmanager.ICall;
-import com.gigigo.kretrofitmanager.ICallbackAdapter;
+import gigigo.com.template.data.entity.SinlgeUser;
+import gigigo.com.template.data.repository.UserRepository;
+import gigigo.com.template.data.repository.UserRepositoryImpl;
+import gigigo.com.template.data.service.IApiService;
+import gigigo.com.template.domain.base.KInteractor;
+import gigigo.com.template.domain.event.ErrorEvent;
+import gigigo.com.template.domain.event.SingleUserEvent;
 
 /**
  * @author Juan Godínez Vera - 6/2/2017.
  */
-public class SingleUserInteractor extends KInteractor {
+public class SingleUserInteractor extends KInteractor implements UserRepository.Callback<SinlgeUser> {
 
-    public SingleUserInteractor() {}
+    private UserRepository userRepository;
+
+    public SingleUserInteractor() { }
 
     /**
      * Defines the method to be invoked when the use case is executed
@@ -26,22 +27,19 @@ public class SingleUserInteractor extends KInteractor {
     @Override
     public void run() {
         int userId = tryGetParamValueAs(Integer.class, 0);
+
         IApiService service = ServiceClient.createService(IApiService.class);
-        ICall<SinlgeUser> call = service.getSingleUser(userId);
+        userRepository = new UserRepositoryImpl(service, this);
+        userRepository.getSingleUser(userId);
+    }
 
-        /**
-         * implements {@link CallbackAdapter} or {@link ICallbackAdapter}
-         */
-        call.enqueue(new CallbackAdapter<SinlgeUser>() {
-            @Override
-            public void onSuccess(final SinlgeUser data) {
-                EventBus.getDefault().post(new SingleUserEvent(data));
-            }
+    @Override
+    public void onSuccess(SinlgeUser data) {
+        EventBus.getDefault().post(new SingleUserEvent(data));
+    }
 
-            @Override
-            public void onError(final Throwable exception) {
-                EventBus.getDefault().post(new ErrorEvent(exception));
-            }
-        });
+    @Override
+    public void onError(Throwable exception) {
+        EventBus.getDefault().post(new ErrorEvent(exception));
     }
 }

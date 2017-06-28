@@ -14,6 +14,10 @@ import gigigo.com.template.R;
 import gigigo.com.template.data.entity.ListUsers;
 import gigigo.com.template.data.entity.SinlgeUser;
 import gigigo.com.template.data.entity.User;
+import gigigo.com.template.data.repository.UserRepository;
+import gigigo.com.template.data.repository.UserRepositoryImpl;
+import gigigo.com.template.data.repository.datasource.UserApiDataSourceImpl;
+import gigigo.com.template.data.repository.datasource.UserDataSource;
 import gigigo.com.template.domain.interactor.ListUserInteractor;
 import gigigo.com.template.domain.interactor.SingleUserInteractor;
 import gigigo.com.template.presentation.presenter.HomePresenter;
@@ -41,10 +45,10 @@ public class HomeFragment
     @Override
     public void onResume() {
         super.onResume();
+        presenter.onResume();
+
         presenter.setParams(1);
         presenter.getUserList();
-
-        presenter.onResume();
     }
 
     @Override
@@ -84,8 +88,12 @@ public class HomeFragment
 
     @Override
     protected HomePresenter createPresenter() {
+//        UserDataSource userDataSource = new UserApiDataSourceImpl();
+//        UserRepository userRepository = new UserRepositoryImpl();
+
         ListUserInteractor listUserInteractor = new ListUserInteractor();
         SingleUserInteractor singleUserInteractor = new SingleUserInteractor();
+
         return new HomePresenter(listUserInteractor, singleUserInteractor);
     }
 

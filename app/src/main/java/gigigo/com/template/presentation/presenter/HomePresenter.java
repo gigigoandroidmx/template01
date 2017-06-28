@@ -13,8 +13,7 @@ import gigigo.com.template.presentation.ui.view.home.IViewHome;
 /**
  * @author Juan Godínez Vera - 5/23/2017.
  */
-public class HomePresenter
-        extends Presenter<IViewHome> {
+public class HomePresenter extends Presenter<IViewHome> {
 
     private final ListUserInteractor listUserInteractor;
     private final SingleUserInteractor singleUserInteractor;

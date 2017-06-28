@@ -1,10 +1,9 @@
-package gigigo.com.template.domain.service;
-
-import gigigo.com.template.data.entity.ListUsers;
-import gigigo.com.template.data.entity.SinlgeUser;
+package gigigo.com.template.data.service;
 
 import com.gigigo.kretrofitmanager.ICall;
 
+import gigigo.com.template.data.entity.ListUsers;
+import gigigo.com.template.data.entity.SinlgeUser;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;

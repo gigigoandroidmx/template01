@@ -1,24 +1,25 @@
 package gigigo.com.template.domain.interactor;
 
 import com.gigigo.kretrofitmanager.ServiceClient;
-import gigigo.com.template.data.entity.ListUsers;
-import gigigo.com.template.domain.base.KInteractor;
-import gigigo.com.template.domain.event.ErrorEvent;
-import gigigo.com.template.domain.event.UsersListEvent;
-import gigigo.com.template.domain.service.IApiService;
 
 import org.greenrobot.eventbus.EventBus;
 
-import com.gigigo.kretrofitmanager.CallbackAdapter;
-import com.gigigo.kretrofitmanager.ICall;
-import com.gigigo.kretrofitmanager.ICallbackAdapter;
+import gigigo.com.template.data.entity.ListUsers;
+import gigigo.com.template.data.repository.UserRepository;
+import gigigo.com.template.data.repository.UserRepositoryImpl;
+import gigigo.com.template.data.service.IApiService;
+import gigigo.com.template.domain.base.KInteractor;
+import gigigo.com.template.domain.event.ErrorEvent;
+import gigigo.com.template.domain.event.UsersListEvent;
 
 /**
  * @author Juan Godínez Vera - 5/23/2017.
  */
-public class ListUserInteractor extends KInteractor {
+public class ListUserInteractor extends KInteractor implements UserRepository.Callback<ListUsers> {
 
-    public ListUserInteractor() {}
+    private UserRepository userRepository;
+
+    public ListUserInteractor() { }
 
     /**
      * Defines the method to be invoked when
@@ -26,22 +27,19 @@ public class ListUserInteractor extends KInteractor {
     @Override
     public void run() {
         int page = tryGetParamValueAs(Integer.class, 0);
+
         IApiService service = ServiceClient.createService(IApiService.class);
-        ICall<ListUsers> call = service.getListUsers(page);
+        userRepository = new UserRepositoryImpl(service, this);
+        userRepository.getListUsers(page);
+    }
 
-        /** 
-         * implements {@link CallbackAdapter} or {@link ICallbackAdapter}
-         */
-        call.enqueue(new CallbackAdapter<ListUsers>() {
-            @Override
-            public void onSuccess(final ListUsers data) {
-                EventBus.getDefault().post(new UsersListEvent(data));
-            }
+    @Override
+    public void onSuccess(ListUsers data) {
+        EventBus.getDefault().post(new UsersListEvent(data));
+    }
 
-            @Override
-            public void onError(final Throwable exception) {
-                EventBus.getDefault().post(new ErrorEvent(exception));
-            }
-        });
+    @Override
+    public void onError(Throwable exception) {
+        EventBus.getDefault().post(new ErrorEvent(exception));
     }
 }
