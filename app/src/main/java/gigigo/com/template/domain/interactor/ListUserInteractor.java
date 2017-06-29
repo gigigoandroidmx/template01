@@ -5,6 +5,7 @@ import com.gigigo.kretrofitmanager.ServiceClient;
 import org.greenrobot.eventbus.EventBus;
 
 import gigigo.com.template.data.entity.ListUsers;
+import gigigo.com.template.data.repository.RepositoryCallback;
 import gigigo.com.template.data.repository.UserRepository;
 import gigigo.com.template.data.repository.UserRepositoryImpl;
 import gigigo.com.template.data.service.IApiService;
@@ -15,7 +16,7 @@ import gigigo.com.template.domain.event.UsersListEvent;
 /**
  * @author Juan Godínez Vera - 5/23/2017.
  */
-public class ListUserInteractor extends KInteractor implements UserRepository.Callback<ListUsers> {
+public class ListUserInteractor extends KInteractor implements RepositoryCallback<ListUsers> {
 
     private UserRepository userRepository;
 

@@ -14,8 +14,4 @@ public class ErrorEvent {
     public Throwable getError() {
         return error;
     }
-
-    public void setError(Throwable error) {
-        this.error = error;
-    }
 }

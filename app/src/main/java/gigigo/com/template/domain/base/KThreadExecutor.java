@@ -35,8 +35,7 @@ import java.util.concurrent.TimeUnit;
  * @version 2.0.0
  * @since 2.0.0
  */
-public class KThreadExecutor
-        implements IExecutor {
+public class KThreadExecutor implements IExecutor {
 
     private static final int CORE_POOL_SIZE = 3;
     private static final int MAX_POOL_SIZE = 5;

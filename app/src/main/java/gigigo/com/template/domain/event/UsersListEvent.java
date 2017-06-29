@@ -16,8 +16,4 @@ public class UsersListEvent {
     public ListUsers getListUsers() {
         return listUsers;
     }
-
-    public void setListUsers(ListUsers listUsers) {
-        this.listUsers = listUsers;
-    }
 }

@@ -3,7 +3,7 @@ package gigigo.com.template.data.service;
 import com.gigigo.kretrofitmanager.ICall;
 
 import gigigo.com.template.data.entity.ListUsers;
-import gigigo.com.template.data.entity.SinlgeUser;
+import gigigo.com.template.data.entity.SingleUser;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -17,5 +17,5 @@ public interface IApiService {
     ICall<ListUsers> getListUsers(@Query("page") int page);
 
     @GET("/api/users/{id}")
-    ICall<SinlgeUser> getSingleUser(@Path("id") int userId);
+    ICall<SingleUser> getSingleUser(@Path("id") int userId);
 }

@@ -8,16 +8,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
-
 import gigigo.com.kmvp.IAction;
 import gigigo.com.template.R;
 import gigigo.com.template.data.entity.ListUsers;
-import gigigo.com.template.data.entity.SinlgeUser;
+import gigigo.com.template.data.entity.SingleUser;
 import gigigo.com.template.data.entity.User;
-import gigigo.com.template.data.repository.UserRepository;
-import gigigo.com.template.data.repository.UserRepositoryImpl;
-import gigigo.com.template.data.repository.datasource.UserApiDataSourceImpl;
-import gigigo.com.template.data.repository.datasource.UserDataSource;
 import gigigo.com.template.domain.interactor.ListUserInteractor;
 import gigigo.com.template.domain.interactor.SingleUserInteractor;
 import gigigo.com.template.presentation.presenter.HomePresenter;
@@ -108,7 +103,7 @@ public class HomeFragment
     }
 
     @Override
-    public void showSingleUser(final SinlgeUser user) {
+    public void showSingleUser(final SingleUser user) {
         if (null == user || user.getData() == null) return;
 
         String data = "Id: " + String.valueOf(user.getData().getId()) + "\n" +

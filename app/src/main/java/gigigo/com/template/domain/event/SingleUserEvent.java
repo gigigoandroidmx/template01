@@ -1,23 +1,19 @@
 package gigigo.com.template.domain.event;
 
-import gigigo.com.template.data.entity.SinlgeUser;
+import gigigo.com.template.data.entity.SingleUser;
 
 /**
  * Created by Omar on 6/6/17.
  */
 
 public class SingleUserEvent {
-    SinlgeUser sinlgeUser;
+    SingleUser singleUser;
 
-    public SingleUserEvent(SinlgeUser sinlgeUser) {
-        this.sinlgeUser = sinlgeUser;
+    public SingleUserEvent(SingleUser singleUser) {
+        this.singleUser = singleUser;
     }
 
-    public SinlgeUser getSinlgeUser() {
-        return sinlgeUser;
-    }
-
-    public void setSinlgeUser(SinlgeUser sinlgeUser) {
-        this.sinlgeUser = sinlgeUser;
+    public SingleUser getSingleUser() {
+        return singleUser;
     }
 }

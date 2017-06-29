@@ -61,7 +61,7 @@ public class HomePresenter extends Presenter<IViewHome> {
         if(!isViewAttached()) return;
 
         getView().showLoading(false);
-        getView().showSingleUser(singleUserEvent.getSinlgeUser());
+        getView().showSingleUser(singleUserEvent.getSingleUser());
     }
 
     /*@Override
