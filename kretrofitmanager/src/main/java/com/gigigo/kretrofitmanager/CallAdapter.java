@@ -60,7 +60,7 @@ public class CallAdapter<T>
                     } else if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                         callback.onUnauthorized();
                     } else {
-                        callback.onDataNotAvailable(handleErrorResponse(response.code()));
+                        callback.onDataNotAvailable(callback.handleErrorResponse(response));
                     }
                 } else {
                     callback.onDataEmpty();
@@ -76,8 +76,4 @@ public class CallAdapter<T>
         };
     }
 
-    private ResponseState handleErrorResponse(int code) {
-        String httpMessage = HttpErrorHandling.fromInt(code).toString();
-        return new ResponseState(httpMessage, code);
-    }
 }
