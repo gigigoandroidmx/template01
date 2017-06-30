@@ -11,6 +11,7 @@
     tools:context="gigigo.com.template.presentation.ui.activity.MainActivity">
 
     <fragment
+        android:id="@+id/fragment"
         android:name="gigigo.com.template.presentation.ui.fragment.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

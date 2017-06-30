@@ -7,7 +7,7 @@ import gigigo.com.template.data.entity.SingleUser;
  */
 
 public class SingleUserEvent {
-    SingleUser singleUser;
+    private final SingleUser singleUser;
 
     public SingleUserEvent(SingleUser singleUser) {
         this.singleUser = singleUser;

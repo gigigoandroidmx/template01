@@ -5,7 +5,7 @@ package gigigo.com.template.domain.event;
  */
 
 public class ErrorEvent {
-    Throwable error;
+    private final Throwable error;
 
     public ErrorEvent(Throwable error) {
         this.error = error;

@@ -58,12 +58,12 @@ public class SharedSettings {
 
         if(replaceIfExist) {
             editor.putString(key, data);
-            editor.commit();
+            editor.apply();
         }
         else {
             if(!settingExist(key)) {
                 editor.putString(key, data);
-                editor.commit();
+                editor.apply();
             }
         }
     }

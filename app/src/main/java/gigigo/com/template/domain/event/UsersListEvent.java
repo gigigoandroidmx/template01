@@ -7,7 +7,7 @@ import gigigo.com.template.data.entity.ListUsers;
  */
 
 public class UsersListEvent {
-    private ListUsers listUsers;
+    private final ListUsers listUsers;
 
     public UsersListEvent(ListUsers listUsers) {
         this.listUsers = listUsers;

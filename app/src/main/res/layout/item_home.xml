@@ -9,7 +9,9 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        tools:background="@color/colorAccent"/>
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        tools:background="@color/colorAccent"
+        android:contentDescription=""/>
 
     <TextView
         android:id="@+id/textview_firstname"

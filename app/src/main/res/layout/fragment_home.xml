@@ -1,38 +1,27 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
     tools:context="gigigo.com.template.presentation.ui.fragment.HomeFragment">
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/textview_userdetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="@dimen/activity_horizontal_margin">
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        tools:text="First Name: eve" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent"
-            android:layout_marginTop="@dimen/activity_vertical_margin"/>
-
-        <TextView
-            android:id="@+id/textview_userdetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            tools:text="First Name: eve"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Button"/>
-
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>
