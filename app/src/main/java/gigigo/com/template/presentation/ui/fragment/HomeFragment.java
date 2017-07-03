@@ -18,7 +18,7 @@ import gigigo.com.template.domain.interactor.SingleUserInteractor;
 import gigigo.com.template.presentation.presenter.HomePresenter;
 import gigigo.com.template.presentation.ui.adapter.HomeAdapter;
 import gigigo.com.template.presentation.ui.base.KFragmentBase;
-import gigigo.com.template.presentation.ui.view.home.IViewHome;
+import gigigo.com.template.presentation.presenter.IViewHome;
 
 
 /**

@@ -8,7 +8,6 @@ import gigigo.com.template.domain.event.SingleUserEvent;
 import gigigo.com.template.domain.event.UsersListEvent;
 import gigigo.com.template.domain.interactor.ListUserInteractor;
 import gigigo.com.template.domain.interactor.SingleUserInteractor;
-import gigigo.com.template.presentation.ui.view.home.IViewHome;
 
 /**
  * @author Juan Godínez Vera - 5/23/2017.

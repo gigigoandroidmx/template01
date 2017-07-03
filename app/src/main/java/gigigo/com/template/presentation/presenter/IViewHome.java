@@ -1,4 +1,4 @@
-package gigigo.com.template.presentation.ui.view.home;
+package gigigo.com.template.presentation.presenter;
 
 import gigigo.com.template.data.entity.ListUsers;
 import gigigo.com.template.data.entity.SingleUser;
