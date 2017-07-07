@@ -1,9 +1,14 @@
 package gigigo.com.template.presentation.ui.fragment;
 
 
+import android.Manifest;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,15 +24,19 @@ import gigigo.com.template.presentation.presenter.HomePresenter;
 import gigigo.com.template.presentation.ui.adapter.HomeAdapter;
 import gigigo.com.template.presentation.ui.base.KFragmentBase;
 import gigigo.com.template.presentation.presenter.IViewHome;
+import gigigo.com.template.presentation.utils.permissions.PermissionsManager;
+import gigigo.com.template.presentation.utils.permissions.PermissionsResult;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 
-public class HomeFragment
-        extends KFragmentBase<IViewHome, HomePresenter>
-        implements IViewHome {
+public class HomeFragment extends KFragmentBase<IViewHome, HomePresenter>
+        implements IViewHome, PermissionsResult {
+
+    public static final String TAG = HomeFragment.class.getSimpleName();
+    public static final int PERMISSIONS_REQUEST_CAMERA_AND_EXTERNAL_STORAGE = 12;
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
@@ -35,7 +44,17 @@ public class HomeFragment
     @BindView(R.id.textview_userdetail)
     TextView textviewUserDetail;
 
+    @BindView(R.id.fab)
+    FloatingActionButton floatingActionButton;
+
     private HomeAdapter adapter;
+    private PermissionsManager permissionsManager;
+
+    private String[] permissionsRequired = new String[]
+            {
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            };
 
     @Override
     public void onResume() {
@@ -50,6 +69,15 @@ public class HomeFragment
     public void onPause() {
         super.onPause();
         presenter.onPause();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (permissionsManager != null)
+            permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     //region KFragment members
@@ -79,6 +107,19 @@ public class HomeFragment
             }
         });
         recyclerView.setAdapter(adapter);
+
+        permissionsManager = new PermissionsManager(getFragmentContext());
+        permissionsManager.setPermissionsResult(this);
+        permissionsManager.setFragment(this);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                permissionsManager.checkPermissions(permissionsRequired,
+                        PERMISSIONS_REQUEST_CAMERA_AND_EXTERNAL_STORAGE,
+                        true, true);
+            }
+        });
     }
 
     @Override
@@ -121,6 +162,21 @@ public class HomeFragment
     @Override
     public void showLoading(boolean active) {
         showProgressIndicator(active);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode) {
+        Log.i(TAG, "onPermissionsGranted -> requestCode = " + requestCode);
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode) {
+        Log.i(TAG, "onPermissionsDenied -> requestCode = " + requestCode);
+    }
+
+    @Override
+    public void onPermissionsDeniedPermanently(int requestCode) {
+        Log.i(TAG, "onPermissionsDeniedPermanently -> requestCode = " + requestCode);
     }
 
     //endregion

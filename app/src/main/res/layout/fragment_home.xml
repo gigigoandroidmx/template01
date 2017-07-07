@@ -1,7 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
     tools:context="gigigo.com.template.presentation.ui.fragment.HomeFragment">
@@ -12,6 +13,8 @@
         android:layout_height="wrap_content" />
 
     <View
+        android:id="@+id/view_separator"
+        android:layout_below="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -22,6 +25,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        tools:text="First Name: eve" />
+        tools:text="First Name: eve"
+        android:layout_below="@+id/view_separator"/>
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
+
+</RelativeLayout>

@@ -9,22 +9,24 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 /**
  * Created by Omar on 7/6/17.
  */
 
-public class PermissionsManager {
+public class PermissionsManager implements RequestPermissionRationale.UserResponse {
+
+    private static final String TAG = PermissionsManager.class.getSimpleName();
 
     private String[] requestedPermissions;
     private PermissionsResult permissionsResult;
     private RequestPermissionRationale requestPermissionRationale;
-    private Context context;
+    private final Context context;
     private int requestCode;
     private Fragment fragment;
     private boolean isFragment = false;
-    boolean showRequestPermissionRationaleOnStart = false;
-    boolean showRequestPermissionRationaleOnEnd = false;
+    private boolean showRequestPermissionRationaleOnEnd = false;
 
     public PermissionsManager(Context context) {
         this.context = context;
@@ -48,7 +50,11 @@ public class PermissionsManager {
                                  boolean showRequestPermissionRationaleOnStart,
                                  boolean showRequestPermissionRationaleOnEnd) {
         if (isFragment && fragment == null) {
-            /*throw new Exception("Fragment is required");*/
+            // TODO: Notify to user
+        }
+
+        if (permissions == null || permissions.length == 0) {
+            // TODO: Notify to user
         }
 
         validatePermissions(permissions, requestCode,
@@ -66,7 +72,6 @@ public class PermissionsManager {
                                      boolean showRequestPermissionRationaleOnEnd) {
         this.requestCode = requestCode;
         this.requestedPermissions = permissions;
-        this.showRequestPermissionRationaleOnStart = showRequestPermissionRationaleOnStart;
         this.showRequestPermissionRationaleOnEnd = showRequestPermissionRationaleOnEnd;
 
         if (hasAllPermissions(permissions)) {
@@ -77,12 +82,11 @@ public class PermissionsManager {
             return;
         }
 
-        if (ActivityCompat
-                .shouldShowRequestPermissionRationale(isFragment ? fragment.getActivity() : (Activity) context,
-                        permissions[0]) && showRequestPermissionRationaleOnStart) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permissions[0]) &&
+                showRequestPermissionRationaleOnStart) {
 
             if (requestPermissionRationale != null)
-                requestPermissionRationale.showRequestPermissionRationale(requestCode);
+                requestPermissionRationale.showRequestPermissionRationale(requestCode, this);
             else
                 showRequestPermissionRationaleAlert();
         } else {
@@ -94,29 +98,8 @@ public class PermissionsManager {
         if (fragment != null) {
             fragment.requestPermissions(requestedPermissions, requestCode);
         } else {
-            ActivityCompat.requestPermissions((Activity) context, requestedPermissions, requestCode);
+            ActivityCompat.requestPermissions(getActivity(), requestedPermissions, requestCode);
         }
-    }
-
-    private void showRequestPermissionRationaleAlert() {
-        AlertDialog alertDialog = new AlertDialog.Builder(context)
-                .setTitle("Permission required")
-                .setMessage("We require this permission because of reasons")
-                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        requestPermissions();
-                    }
-                })
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (permissionsResult != null)
-                            permissionsResult.onPermissionsDenied(requestCode);
-                    }
-                })
-                .create();
-        alertDialog.show();
     }
 
     private boolean hasAllPermissions(String[] permissions) {
@@ -135,7 +118,9 @@ public class PermissionsManager {
         return permissionCheck == PackageManager.PERMISSION_GRANTED;
     }
 
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (grantResults.length > 0 && this.requestCode == requestCode) {
 
             int permissionDeniedPosition = allPermissionRequestedGranted(grantResults);
@@ -145,22 +130,25 @@ public class PermissionsManager {
 
             if (permissionDeniedPosition == -1) {
                 permissionsResult.onPermissionsGranted(requestCode);
-            } else {
-                if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
-                        requestedPermissions[permissionDeniedPosition])) {
-                    if (showRequestPermissionRationaleOnEnd) {
-                        if (requestPermissionRationale != null)
-                            requestPermissionRationale.showRequestPermissionRationale(requestCode);
-                        else
-                            showRequestPermissionRationaleAlert();
-                    } else {
-                        permissionsResult.onPermissionsDenied(requestCode);
-                    }
-
-                } else {
-                    permissionsResult.onPermissionsDeniedPermanently(requestCode);
-                }
+                return;
             }
+
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    requestedPermissions[permissionDeniedPosition])) {
+                permissionsResult.onPermissionsDeniedPermanently(requestCode);
+                return;
+            }
+
+            if (showRequestPermissionRationaleOnEnd) {
+                if (requestPermissionRationale != null)
+                    requestPermissionRationale.showRequestPermissionRationale(requestCode, this);
+                else
+                    showRequestPermissionRationaleAlert();
+            } else {
+                permissionsResult.onPermissionsDenied(requestCode);
+            }
+
+
         }
     }
 
@@ -172,5 +160,43 @@ public class PermissionsManager {
         }
 
         return -1;
+    }
+
+    private void showRequestPermissionRationaleAlert() {
+        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setTitle("Permission required")
+                .setMessage("We require this permission because of reasons")
+                .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        requestPermissions();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (permissionsResult != null)
+                            permissionsResult.onPermissionsDenied(requestCode);
+                    }
+                })
+                .create();
+        alertDialog.show();
+    }
+
+    private Activity getActivity() {
+        return isFragment ? fragment.getActivity() : (Activity) context;
+    }
+
+    @Override
+    public void accepted(int requestCode) {
+        Log.i(TAG, "UserResponse -> accepted");
+        requestPermissions();
+    }
+
+    @Override
+    public void canceled(int requestCode) {
+        Log.i(TAG, "UserResponse -> canceled");
+        if (permissionsResult != null)
+            permissionsResult.onPermissionsDenied(requestCode);
     }
 }

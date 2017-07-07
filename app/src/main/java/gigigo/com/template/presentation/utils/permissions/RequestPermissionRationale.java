@@ -5,5 +5,10 @@ package gigigo.com.template.presentation.utils.permissions;
  */
 
 public interface RequestPermissionRationale {
-    void showRequestPermissionRationale(int requestCode);
+    void showRequestPermissionRationale(int requestCode, UserResponse userResponse);
+
+    interface UserResponse {
+        void accepted(int requestCode);
+        void canceled(int requestCode);
+    }
 }
