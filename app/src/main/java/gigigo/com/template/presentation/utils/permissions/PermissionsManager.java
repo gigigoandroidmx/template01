@@ -9,70 +9,67 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 
 /**
- * Created by Omar on 7/6/17.
+ * Created by Omar on 1/16/17.
  */
 
 public class PermissionsManager implements RequestPermissionRationale.UserResponse {
 
     private static final String TAG = PermissionsManager.class.getSimpleName();
 
-    private String[] requestedPermissions;
+    private final Context context;
+    private Fragment fragment;
     private PermissionsResult permissionsResult;
     private RequestPermissionRationale requestPermissionRationale;
-    private final Context context;
+
+    private String[] requestedPermissions;
     private int requestCode;
-    private Fragment fragment;
     private boolean isFragment = false;
-    private boolean showRequestPermissionRationaleOnEnd = false;
+    private ShowRequestPermissionRationale showRequestPermissionRationale;
+    private String dialogExplanationTitle = "";
+    private String dialogExplanationMessage = "";
+    private String dialogExplanationOkButtonText = "";
+    private String dialogExplanationCancelButtonText = "";
 
-    public PermissionsManager(Context context) {
-        this.context = context;
+    public PermissionsManager(Builder builder) {
+        this.context = builder.context;
+        this.fragment = builder.fragment;
+        this.isFragment = fragment != null;
+        this.permissionsResult = builder.permissionsResult;
+        this.requestPermissionRationale = builder.requestPermissionRationale;
+
+        this.dialogExplanationTitle = builder.dialogExplanationTitle;
+        this.dialogExplanationMessage = builder.dialogExplanationMessage;
+        this.dialogExplanationOkButtonText = builder.dialogExplanationOkButtonText;
+        this.dialogExplanationCancelButtonText = builder.dialogExplanationCancelButtonText;
     }
 
-    public void setFragment(Fragment fragment) {
-        this.fragment = fragment;
-        isFragment = true;
-    }
-
-    public void setPermissionsResult(PermissionsResult permissionsResult) {
-        this.permissionsResult = permissionsResult;
-    }
-
-    public void setRequestPermissionRationale(RequestPermissionRationale requestPermissionRationale) {
-        this.requestPermissionRationale = requestPermissionRationale;
-    }
-
-    public void checkPermissions(String[] permissions,
+    public void checkPermissions(@NonNull String[] permissions,
                                  int requestCode,
-                                 boolean showRequestPermissionRationaleOnStart,
-                                 boolean showRequestPermissionRationaleOnEnd) {
-        if (isFragment && fragment == null) {
-            // TODO: Notify to user
-        }
+                                 ShowRequestPermissionRationale showRequestPermissionRationale) {
 
         if (permissions == null || permissions.length == 0) {
-            // TODO: Notify to user
+            if (permissionsResult != null) {
+                permissionsResult.onPermissionsDenied(requestCode);
+            }
+
+            return;
         }
 
-        validatePermissions(permissions, requestCode,
-                showRequestPermissionRationaleOnStart, showRequestPermissionRationaleOnEnd);
+        validatePermissions(permissions, requestCode, showRequestPermissionRationale);
     }
 
-    public void checkPermissions(String[] permissions,
-                                 int requestCode) {
-        this.checkPermissions(permissions, requestCode, false, false);
+    public void checkPermissions(@NonNull String[] permissions, int requestCode) {
+        this.checkPermissions(permissions, requestCode, ShowRequestPermissionRationale.NONE);
     }
 
     private void validatePermissions(String[] permissions,
                                      int requestCode,
-                                     boolean showRequestPermissionRationaleOnStart,
-                                     boolean showRequestPermissionRationaleOnEnd) {
+                                     ShowRequestPermissionRationale showRequestPermissionRationale) {
         this.requestCode = requestCode;
         this.requestedPermissions = permissions;
-        this.showRequestPermissionRationaleOnEnd = showRequestPermissionRationaleOnEnd;
+        this.showRequestPermissionRationale = showRequestPermissionRationale;
 
         if (hasAllPermissions(permissions)) {
 
@@ -83,7 +80,8 @@ public class PermissionsManager implements RequestPermissionRationale.UserRespon
         }
 
         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permissions[0]) &&
-                showRequestPermissionRationaleOnStart) {
+                (showRequestPermissionRationale == ShowRequestPermissionRationale.AT_START ||
+                        showRequestPermissionRationale == ShowRequestPermissionRationale.BOTH)) {
 
             if (requestPermissionRationale != null)
                 requestPermissionRationale.showRequestPermissionRationale(requestCode, this);
@@ -139,7 +137,8 @@ public class PermissionsManager implements RequestPermissionRationale.UserRespon
                 return;
             }
 
-            if (showRequestPermissionRationaleOnEnd) {
+            if (showRequestPermissionRationale == ShowRequestPermissionRationale.AT_END ||
+                    showRequestPermissionRationale == ShowRequestPermissionRationale.BOTH) {
                 if (requestPermissionRationale != null)
                     requestPermissionRationale.showRequestPermissionRationale(requestCode, this);
                 else
@@ -164,21 +163,26 @@ public class PermissionsManager implements RequestPermissionRationale.UserRespon
 
     private void showRequestPermissionRationaleAlert() {
         AlertDialog alertDialog = new AlertDialog.Builder(context)
-                .setTitle("Permission required")
-                .setMessage("We require this permission because of reasons")
-                .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                .setTitle(!dialogExplanationTitle.isEmpty() ? dialogExplanationTitle :
+                        "Permiso requerido")
+                .setMessage(!dialogExplanationMessage.isEmpty() ? dialogExplanationMessage :
+                        "Este permiso es requerido para que la aplicación funcione correctamente")
+                .setPositiveButton(!dialogExplanationOkButtonText.isEmpty() ?
+                        dialogExplanationOkButtonText : "Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         requestPermissions();
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (permissionsResult != null)
-                            permissionsResult.onPermissionsDenied(requestCode);
-                    }
-                })
+                .setNegativeButton(!dialogExplanationCancelButtonText.isEmpty() ?
+                                dialogExplanationCancelButtonText : "Cancelar",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (permissionsResult != null)
+                                    permissionsResult.onPermissionsDenied(requestCode);
+                            }
+                        })
                 .create();
         alertDialog.show();
     }
@@ -189,14 +193,66 @@ public class PermissionsManager implements RequestPermissionRationale.UserRespon
 
     @Override
     public void accepted(int requestCode) {
-        Log.i(TAG, "UserResponse -> accepted");
         requestPermissions();
     }
 
     @Override
     public void canceled(int requestCode) {
-        Log.i(TAG, "UserResponse -> canceled");
         if (permissionsResult != null)
             permissionsResult.onPermissionsDenied(requestCode);
+    }
+
+    public static class Builder {
+        private Context context;
+        private Fragment fragment;
+        private PermissionsResult permissionsResult;
+        private RequestPermissionRationale requestPermissionRationale;
+        private String dialogExplanationTitle = "";
+        private String dialogExplanationMessage = "";
+        private String dialogExplanationOkButtonText = "";
+        private String dialogExplanationCancelButtonText = "";
+
+        public Builder(Context context) {
+            this.context = context;
+        }
+
+        public Builder setFragment(Fragment fragment) {
+            this.fragment = fragment;
+            return this;
+        }
+
+        public Builder setPermissionsResult(PermissionsResult permissionsResult) {
+            this.permissionsResult = permissionsResult;
+            return this;
+        }
+
+        public Builder setRequestPermissionRationale(RequestPermissionRationale requestPermissionRationale) {
+            this.requestPermissionRationale = requestPermissionRationale;
+            return this;
+        }
+
+        public Builder setDialogTitle(@NonNull String title) {
+            this.dialogExplanationTitle = title;
+            return this;
+        }
+
+        public Builder setDialogMessage(@NonNull String message) {
+            this.dialogExplanationMessage = message;
+            return this;
+        }
+
+        public Builder setDialogOkButtonText(@NonNull String okButtonText) {
+            this.dialogExplanationOkButtonText = okButtonText;
+            return this;
+        }
+
+        public Builder setDialogCancelButtonText(@NonNull String cancelButtonText) {
+            this.dialogExplanationCancelButtonText = cancelButtonText;
+            return this;
+        }
+
+        public PermissionsManager build() {
+            return new PermissionsManager(this);
+        }
     }
 }

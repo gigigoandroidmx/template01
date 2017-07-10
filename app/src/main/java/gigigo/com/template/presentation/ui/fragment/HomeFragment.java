@@ -2,9 +2,11 @@ package gigigo.com.template.presentation.ui.fragment;
 
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +28,8 @@ import gigigo.com.template.presentation.ui.base.KFragmentBase;
 import gigigo.com.template.presentation.presenter.IViewHome;
 import gigigo.com.template.presentation.utils.permissions.PermissionsManager;
 import gigigo.com.template.presentation.utils.permissions.PermissionsResult;
+import gigigo.com.template.presentation.utils.permissions.RequestPermissionRationale;
+import gigigo.com.template.presentation.utils.permissions.ShowRequestPermissionRationale;
 
 
 /**
@@ -33,7 +37,7 @@ import gigigo.com.template.presentation.utils.permissions.PermissionsResult;
  */
 
 public class HomeFragment extends KFragmentBase<IViewHome, HomePresenter>
-        implements IViewHome, PermissionsResult {
+        implements IViewHome, PermissionsResult, RequestPermissionRationale {
 
     public static final String TAG = HomeFragment.class.getSimpleName();
     public static final int PERMISSIONS_REQUEST_CAMERA_AND_EXTERNAL_STORAGE = 12;
@@ -108,16 +112,21 @@ public class HomeFragment extends KFragmentBase<IViewHome, HomePresenter>
         });
         recyclerView.setAdapter(adapter);
 
-        permissionsManager = new PermissionsManager(getFragmentContext());
-        permissionsManager.setPermissionsResult(this);
-        permissionsManager.setFragment(this);
+        permissionsManager = new PermissionsManager.Builder(getFragmentContext())
+                .setPermissionsResult(this)
+                .setFragment(this)
+//                .setDialogTitle("Permisos")
+//                .setDialogMessage("Para brindarte la mejor funcionalidad, requerimos que habilites ciertos permisos")
+//                .setDialogOkButtonText("Si")
+//                .setDialogCancelButtonText("No")
+                .setRequestPermissionRationale(this)
+                .build();
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 permissionsManager.checkPermissions(permissionsRequired,
-                        PERMISSIONS_REQUEST_CAMERA_AND_EXTERNAL_STORAGE,
-                        true, true);
+                        PERMISSIONS_REQUEST_CAMERA_AND_EXTERNAL_STORAGE, ShowRequestPermissionRationale.AT_START);
             }
         });
     }
@@ -177,6 +186,29 @@ public class HomeFragment extends KFragmentBase<IViewHome, HomePresenter>
     @Override
     public void onPermissionsDeniedPermanently(int requestCode) {
         Log.i(TAG, "onPermissionsDeniedPermanently -> requestCode = " + requestCode);
+    }
+
+    @Override
+    public void showRequestPermissionRationale(final int requestCode, final UserResponse userResponse) {
+        Log.i(TAG, "showRequestPermissionRationale -> requestCode = " + requestCode);
+
+        AlertDialog alertDialog = new AlertDialog.Builder(getFragmentContext())
+                .setTitle("Custom title")
+                .setMessage("We require this permission because of reasons")
+                .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        userResponse.accepted(requestCode);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        userResponse.canceled(requestCode);
+                    }
+                })
+                .create();
+        alertDialog.show();
     }
 
     //endregion
